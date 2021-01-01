@@ -4,7 +4,7 @@
     <title>Access denied</title>
 </head>
 <body>
-<h1>Access denied - You are not authorized to access this resourse</h1>
+<h1>Access denied - You are not authorized to access this resource</h1>
 <a href="${pageContext.request.contextPath}/">Back to Home Page</a>
 
 </body>

@@ -15,6 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Role {
+
+    public Role(String role) {
+        this.role = role;
+    }
+
     @Id
     @Column(name = "authority")
     private String role;

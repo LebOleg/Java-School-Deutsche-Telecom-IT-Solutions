@@ -22,8 +22,8 @@ public class Passenger {
     private String name;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "patronymic")
-    private String patronymic;
+    @Column(name = "middle_name")
+    private String middleName;
     @Column(name = "date_of_birth")
     private LocalDateTime birthday;
     @Column(name = "email")
