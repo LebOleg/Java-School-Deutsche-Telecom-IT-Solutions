@@ -20,6 +20,7 @@ public class SBBSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/searchStation").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/").authenticated()
                 .antMatchers("/system/**").hasRole("ADMIN")

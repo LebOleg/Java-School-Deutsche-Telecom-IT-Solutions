@@ -22,7 +22,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class PersistenceJpaConfig {
     @Autowired
-    Environment env;
+    private Environment env;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {

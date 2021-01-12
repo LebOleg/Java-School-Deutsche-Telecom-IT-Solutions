@@ -4,8 +4,9 @@ import org.springframework.stereotype.Repository;
 import ru.lebedev.SBBProject.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import java.util.Optional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -14,18 +15,17 @@ public class UserDAOImpl implements UserDAO {
     private EntityManager entityManager;
 
     @Override
-    public User getUserByUsername(String username) {
-        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.username =: username", User.class);
-        query.setParameter("username", username);
-        User user = new User();
+    public Optional<User> getUserByUsername(String username) {
 
         try {
-            user = query.getSingleResult();
-        } catch (Exception e) {
-            user = null;
+            return Optional.of(
+                    entityManager.createQuery("select u from User u where u.username =: username", User.class)
+                            .setParameter("username", username)
+                            .getSingleResult()
+            );
+        } catch (NoResultException e) {
+            return Optional.empty();
         }
-
-        return user;
     }
 
     @Override

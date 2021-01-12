@@ -9,20 +9,20 @@ import ru.lebedev.SBBProject.model.Role;
 import ru.lebedev.SBBProject.model.User;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
     @Autowired
-    BCryptPasswordEncoder bCryptEncoder;
+    private BCryptPasswordEncoder bCryptEncoder;
 
     @Override
     @Transactional
     public User getUser(String username) {
-        User user = userDAO.getUserByUsername(username);
-
-        return user;
+        Optional<User> user = userDAO.getUserByUsername(username);
+        return user.orElseGet(User::new);
     }
 
     @Override
@@ -32,5 +32,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         userDAO.save(user);
+    }
+
+    @Override
+    public boolean checkIfUsernameExists(User user) {
+        return user.getUsername() != null;
     }
 }

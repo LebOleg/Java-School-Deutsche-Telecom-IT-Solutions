@@ -12,13 +12,12 @@ import ru.lebedev.SBBProject.model.User;
 import ru.lebedev.SBBProject.service.UserService;
 import ru.lebedev.SBBProject.validation.PasswordGroup;
 
-import javax.validation.Valid;
 import javax.validation.groups.Default;
 
 @Controller
 public class RegistrationController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/showRegistrationForm")
     public String showRegistrationForm(Model theModel) {
@@ -34,7 +33,8 @@ public class RegistrationController {
         }
 
         User checkUser = userService.getUser(user.getUsername());
-        if (checkUser != null) {
+
+        if (userService.checkIfUsernameExists(checkUser)) {
             model.addAttribute("user", new User());
             model.addAttribute("registrationError", "This user already exists");
             return "registration-form";
