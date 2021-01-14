@@ -70,15 +70,15 @@
                         <form:form action="${pageContext.request.contextPath}/fillPassenger" method="get" modelAttribute="ticket">
                 <div class="list-group-item list-group-item-action">
                         <div class="text-center">
-                        №${ticket.key.train.number}
+                        №${ticket.train.number}
                         </div>
 
                         <p></p>
 
-                        <div class="row d-flex justify-content-center" >
+                        <div class="row d-flex justify-content-center">
                             <div>
 
-                        <div>${ticket.key.departureTime.toLocalTime()}</div>
+                        <div>${ticket.departureTime.toLocalTime()}</div>
                                 <div  class="row d-flex justify-content-center font-weight-bold">${searchTicketAttr.fromStation}</div>
 
                             </div>
@@ -88,12 +88,12 @@
                             </div>
 
                             <div>
-                        <div>${ticket.value.toLocalTime()}</div>
+                        <div>${ticket.arrivalTime.toLocalTime()}</div>
                                 <div  class="row d-flex justify-content-center font-weight-bold"> ${searchTicketAttr.toStation}</div>
                             </div>
                         </div>
                         <p></p>
-                        <span class="badge badge-info badge-pill mt-3">available ${ticket.key.train.availableSeats} seats </span>
+                        <span class="badge badge-info badge-pill mt-3">available ${ticket.train.availableSeats} seats </span>
 <%--                    <div class="row d-flex justify-content-end">--%>
 
                     <input  class="btn btn-info btn-sm rounded-0" type="submit" name="buy" value="Buy"   style="width: 20%; float: right">
@@ -105,7 +105,5 @@
     </c:choose>
 
 </c:if>
-
-
 </body>
 </html>

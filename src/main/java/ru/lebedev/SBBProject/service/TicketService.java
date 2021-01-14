@@ -1,12 +1,12 @@
 package ru.lebedev.SBBProject.service;
 
 import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
-import ru.lebedev.SBBProject.model.Timetable;
+import ru.lebedev.SBBProject.model.Ticket;
 
-import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
+
 
 public interface TicketService {
 
-    Map<Timetable, LocalDateTime> findTicket(SearchTicketAttributes searchTicketAttributes);
+    List<Ticket> findTicket(SearchTicketAttributes searchTicketAttributes);
 }

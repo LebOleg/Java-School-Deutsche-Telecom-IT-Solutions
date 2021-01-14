@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
-import ru.lebedev.SBBProject.model.Timetable;
+import ru.lebedev.SBBProject.model.Ticket;
 import ru.lebedev.SBBProject.service.TicketService;
 
-import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
+
 
 @Controller
 public class TicketController {
@@ -27,10 +27,14 @@ public class TicketController {
 
     @PostMapping("/processSearchTicket")
     public String processTicketSearch(@ModelAttribute("searchTicketAttr") SearchTicketAttributes searchTicketAttributes, Model model) {
-        Map<Timetable, LocalDateTime> availableTicket = ticketService.findTicket(searchTicketAttributes);
-        model.addAttribute("tickets", availableTicket);
+        List<Ticket> tickets = ticketService.findTicket(searchTicketAttributes);
+        model.addAttribute("tickets", tickets);
         return "search-ticket";
     }
 
+    @GetMapping("/fillPassenger")
+    public String showPassengerForm() {
 
+        return "";
+    }
 }
