@@ -38,8 +38,7 @@
 
 					<!-- Registration Form -->
 					<form:form action="${pageContext.request.contextPath}/processRegistrationForm"
-							   modelAttribute="user"
-							   class="form-horizontal">
+							   method="post" modelAttribute="user" class="form-horizontal">
 
 						<div class="col-xs-15">
 							<div>

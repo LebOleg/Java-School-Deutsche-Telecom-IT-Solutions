@@ -15,6 +15,7 @@
     <script type="text/javascript" src="resources/js/autocomplete.js"></script>
     <sec:csrfMetaTags />
 </head>
+
 <body>
 <div class="container">
     <div class="row">
@@ -46,7 +47,7 @@
                             <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                 <div class="flex-column">
                                     №${timetable.train.number}
-                                    <p class="font-weight-bold">${timetable.departureTime.hour}:${timetable.departureTime.minute}</p>
+                                    <p class="font-weight-bold">${timetable.arrivalTime.hour}:${timetable.arrivalTime.minute}</p>
                                     <span class="badge badge-info badge-pill">available ${timetable.train.availableSeats} seats </span>
                                 </div>
                             </div>
