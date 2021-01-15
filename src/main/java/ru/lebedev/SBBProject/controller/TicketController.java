@@ -3,12 +3,12 @@ package ru.lebedev.SBBProject.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
+import ru.lebedev.SBBProject.dto.TicketDTO;
 import ru.lebedev.SBBProject.model.Ticket;
 import ru.lebedev.SBBProject.service.TicketService;
+import ru.lebedev.SBBProject.service.TrainService;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ public class TicketController {
 
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private TrainService trainService;
 
     @GetMapping("/searchTicket")
     public String showTicketSearchForm(Model model) {
@@ -29,12 +31,18 @@ public class TicketController {
     public String processTicketSearch(@ModelAttribute("searchTicketAttr") SearchTicketAttributes searchTicketAttributes, Model model) {
         List<Ticket> tickets = ticketService.findTicket(searchTicketAttributes);
         model.addAttribute("tickets", tickets);
+        model.addAttribute("ticketDTO", new TicketDTO());
         return "search-ticket";
     }
 
-    @GetMapping("/fillPassenger")
-    public String showPassengerForm() {
+    @PostMapping("/fillPassenger")
+    public String showPassengerForm(@ModelAttribute("ticketDTO") TicketDTO ticket, Model model) {
+        return "passenger-form";
+    }
 
-        return "";
+    @PostMapping("/checkAvailableSeats")
+    public @ResponseBody
+    Integer checkAvailableSeats(@RequestBody String trainNumber) {
+        return trainService.getAvailableSeats(trainNumber);
     }
 }
