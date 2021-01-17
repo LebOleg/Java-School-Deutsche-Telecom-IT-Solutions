@@ -80,6 +80,7 @@
                             № <div class="d-inline trains">${ticket.train.number}</div>
                             <form:input path="train" type="hidden" value="${ticket.train.number}"/>
 
+
                         </div>
 
                         <p></p>

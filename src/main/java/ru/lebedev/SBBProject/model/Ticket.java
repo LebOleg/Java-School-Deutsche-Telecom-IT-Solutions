@@ -41,7 +41,21 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "train_number", referencedColumnName = "number")
     private Train train;
-    @ManyToOne
-    @JoinColumn(name = "passenger_id", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "passenger", referencedColumnName = "passport_number")
     private Passenger passenger;
+
+    public static Ticket createTicket(Station sourceStation, Station destinationStation, LocalDateTime departureTime,
+                                   LocalDateTime arrivalTime, Train train) {
+
+        Ticket ticket = new Ticket();
+
+        ticket.sourceStation = sourceStation;
+        ticket.destinationStation = destinationStation;
+        ticket.departureTime = departureTime;
+        ticket.arrivalTime = arrivalTime;
+        ticket.train = train;
+
+        return ticket;
+    }
 }

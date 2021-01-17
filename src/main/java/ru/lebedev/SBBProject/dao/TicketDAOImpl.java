@@ -1,6 +1,7 @@
 package ru.lebedev.SBBProject.dao;
 
 import org.springframework.stereotype.Repository;
+import ru.lebedev.SBBProject.model.Ticket;
 import ru.lebedev.SBBProject.model.Timetable;
 
 import javax.persistence.EntityManager;
@@ -14,8 +15,9 @@ public class TicketDAOImpl implements TicketDAO{
     @PersistenceContext
     private EntityManager entityManager;
 
+
     @Override
-    public Timetable getSuitableTrainInTimetable(String fromStation, String toStation, LocalTime fromTime, LocalTime toTime, LocalDate date) {
-        return null;
+    public void save(Ticket ticket) {
+        entityManager.persist(ticket);
     }
 }

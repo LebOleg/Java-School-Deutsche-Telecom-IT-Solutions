@@ -18,11 +18,4 @@ public class SearchTicketAttributes {
     private String fromTime;
     private String toTime;
     private String date;
-
-    public LocalDateTime convertStringsToDate(String time, String date) {
-        String fullDate = date + "T" + time;
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-
-        return LocalDateTime.parse(fullDate, formatter);
-    }
 }

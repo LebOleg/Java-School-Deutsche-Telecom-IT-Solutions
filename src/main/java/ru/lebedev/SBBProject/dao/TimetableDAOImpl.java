@@ -28,14 +28,11 @@ public class TimetableDAOImpl implements TimetableDAO {
     }
 
     @Override
-    public List<Ticket> getAvailableTicket(SearchTicketAttributes ticketAttributes) {
+    public List<Ticket> getAvailableTicket(SearchTicketAttributes ticketAttributes, LocalDateTime fromTime, LocalDateTime toTime) {
 
         TypedQuery<Ticket> query = entityManager.createQuery("select new Ticket(t.station, t1.station, t.departureTime, t1.arrivalTime,t.train) from Timetable t " +
                 "join Timetable t1 on t.train=t1.train and t1.station.name=:destinationStation and t.station.name=:sourceStation " +
                 "where t.departureTime between :fromTime and :toTime and t1.arrivalTime > t.departureTime", Ticket.class);
-
-        LocalDateTime fromTime = ticketAttributes.convertStringsToDate(ticketAttributes.getFromTime(), ticketAttributes.getDate());
-        LocalDateTime toTime = ticketAttributes.convertStringsToDate(ticketAttributes.getToTime(), ticketAttributes.getDate());
 
         query.setParameter("destinationStation", ticketAttributes.getToStation());
         query.setParameter("sourceStation", ticketAttributes.getFromStation());
