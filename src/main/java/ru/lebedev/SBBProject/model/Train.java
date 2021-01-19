@@ -16,11 +16,19 @@ import java.util.List;
 @EqualsAndHashCode
 public class Train {
 
+    public Train(Integer availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+
     @Id
-    @Column(name = "number")
-    private String number;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
     @Column(name = "seats_available")
     private Integer availableSeats;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "train")
-    private List<Timetable> timetable;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "train")
+    private Timetable timetable;
+    @ManyToOne
+    @JoinColumn(name = "route_number", referencedColumnName = "number")
+    private RouteNumber routeNumber;
 }

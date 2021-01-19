@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Entity
 @Table(name = "passenger")
@@ -18,6 +19,9 @@ import java.time.format.DateTimeFormatter;
 @EqualsAndHashCode
 public class Passenger {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
     @Column(name = "passport_number")
     private String passportNumber;
     @Column(name = "first_name")
@@ -33,6 +37,9 @@ public class Passenger {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+    @OneToMany(mappedBy = "passenger")
+    @Column(name = "ticket")
+    private List<Ticket> tickets;
 
     public static Passenger createPassenger(String name, String lastName, String middleName,
                                             LocalDate birthday, String email, String passportNumber) {

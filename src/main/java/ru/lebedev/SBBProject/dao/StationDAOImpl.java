@@ -33,4 +33,9 @@ public class StationDAOImpl implements StationDAO {
             return Optional.empty();
         }
     }
+
+    @Override
+    public void save(Station station) {
+        entityManager.persist(station);
+    }
 }

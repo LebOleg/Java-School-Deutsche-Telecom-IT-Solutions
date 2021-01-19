@@ -17,22 +17,27 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Timetable {
+
+    public Timetable(Train train, RouteNumber route, LocalTime beginTime, LocalDate date) {
+        this.train = train;
+        this.route = route;
+        this.beginTime = beginTime;
+        this.date = date;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @ManyToOne(fetch = FetchType.EAGER,
+    @OneToOne(fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "train_number")
+    @JoinColumn(name = "train_number", referencedColumnName = "id")
     private Train train;
-    @ManyToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "station_name")
-    private Station station;
-    @Column(name = "arrival_time")
-    private LocalDateTime arrivalTime;
-    @Column(name = "departure_time")
-    private LocalDateTime departureTime;
-
-
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "route_number", referencedColumnName = "number")
+    private RouteNumber route;
+    @Column(name = "begin_time")
+    private LocalTime beginTime;
+    @Column(name = "date")
+    private LocalDate date;
 }

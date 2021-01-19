@@ -15,9 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Station {
+
+    public Station(String name) {
+        this.name = name;
+    }
+
     @Id
     @Column(name = "name")
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "station")
-    private List<Timetable> timetable;
 }

@@ -21,4 +21,9 @@ public class CustomConverter {
         return LocalDate.parse(date);
     }
 
+    public static LocalTime convertStringToTime(String time) {
+
+        return LocalTime.parse(time);
+    }
+
 }

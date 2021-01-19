@@ -39,10 +39,10 @@ public class Ticket {
     @Column(name = "arrival_time")
     private LocalDateTime arrivalTime;
     @ManyToOne
-    @JoinColumn(name = "train_number", referencedColumnName = "number")
+    @JoinColumn(name = "train_number", referencedColumnName = "id")
     private Train train;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "passenger", referencedColumnName = "passport_number")
+    @JoinColumn(name = "passenger", referencedColumnName = "id")
     private Passenger passenger;
 
     public static Ticket createTicket(Station sourceStation, Station destinationStation, LocalDateTime departureTime,

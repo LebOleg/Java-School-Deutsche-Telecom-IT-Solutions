@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,10 +26,12 @@ public class TrainDAOImpl implements TrainDAO {
 
     @Override
     public Optional<Train> getTrainByNumber(String number) {
+        Integer intNumber = Integer.valueOf(number);
+
         try {
             return Optional.of(
-                    entityManager.createQuery("select t from Train t where t.number=:number", Train.class)
-                            .setParameter("number", number)
+                    entityManager.createQuery("select t from Train t where t.id=:number", Train.class)
+                            .setParameter("number", intNumber)
                             .getSingleResult()
             );
         } catch (NoResultException e) {
@@ -39,5 +42,18 @@ public class TrainDAOImpl implements TrainDAO {
     @Override
     public void updateAvailableSeats(Train train) {
         entityManager.merge(train);
+    }
+
+    @Override
+    public void saveTrain(Train train) {
+
+        entityManager.persist(train);
+    }
+
+    @Override
+    public List<Train> getAvailableTrains() {
+
+        return entityManager.createQuery("select t from Train t where t.routeNumber.number=null", Train.class)
+                .getResultList();
     }
 }

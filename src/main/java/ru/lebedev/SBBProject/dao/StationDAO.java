@@ -8,4 +8,6 @@ public interface StationDAO {
     String getAutofilledStation(String partName);
 
     Optional<Station> getStationByName(String name);
+
+    void save(Station station);
 }

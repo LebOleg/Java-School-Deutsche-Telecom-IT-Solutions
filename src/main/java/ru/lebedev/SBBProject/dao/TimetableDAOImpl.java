@@ -41,4 +41,9 @@ public class TimetableDAOImpl implements TimetableDAO {
 
         return query.getResultList();
     }
+
+    @Override
+    public void saveInTimetable(Timetable timetable) {
+        entityManager.persist(timetable);
+    }
 }
