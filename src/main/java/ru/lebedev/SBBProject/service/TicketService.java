@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TicketService {
 
-    List<Ticket> findTicket(SearchTicketAttributes searchTicketAttributes);
+    List<TicketDTO> findTicket(SearchTicketAttributes searchTicketAttributes);
 
     public void buyTicket(String username, TicketDTO ticketDTO, PassengerDTO passengerDTO);
 }

@@ -16,10 +16,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 public class Ticket {
 
-    public Ticket(Station sourceStation, Station destinationStation,
-                  LocalDateTime departureTime, LocalDateTime arrivalTime, Train train) {
-        this.sourceStation = sourceStation;
-        this.destinationStation = destinationStation;
+    public Ticket(LocalDateTime departureTime, LocalDateTime arrivalTime, Train train) {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.train = train;

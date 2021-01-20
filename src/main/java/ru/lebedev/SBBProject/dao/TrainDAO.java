@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TrainDAO {
-    Integer getCurrentAvailableSeats(String trainNumber);
+    Integer getCurrentAvailableSeats(Integer trainNumber);
 
-    Optional<Train> getTrainByNumber(String number);
+    Train getTrainById(Integer id);
 
     void updateAvailableSeats(Train train);
 

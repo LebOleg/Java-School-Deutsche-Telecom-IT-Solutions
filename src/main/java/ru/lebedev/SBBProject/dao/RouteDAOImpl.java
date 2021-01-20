@@ -6,6 +6,8 @@ import ru.lebedev.SBBProject.model.Route;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,6 +18,21 @@ public class RouteDAOImpl implements RouteDAO{
     @Override
     public void save(Route route) {
         entityManager.persist(route);
+    }
+
+    @Override
+    public List<String> getSuitableRoutes(String fromStation, String toStation) {
+
+        Query query = entityManager.createQuery(
+                "select r1.routeNumber.number from Route r1 join Route r2 on " +
+                        "r1.routeNumber = r2.routeNumber and r1.station.name = :fromStation and r2.station.name =:toStation");
+
+        query.setParameter("fromStation", fromStation);
+        query.setParameter("toStation", toStation);
+
+        return query.getResultList();
+
+
     }
 
     @Override
@@ -30,6 +47,8 @@ public class RouteDAOImpl implements RouteDAO{
         } catch (NoResultException e) {
             return Optional.empty();
         }
+
+
 
 
     }

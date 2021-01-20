@@ -13,6 +13,7 @@ import ru.lebedev.SBBProject.model.Train;
 import ru.lebedev.SBBProject.utility.CustomConverter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -40,14 +41,13 @@ public class TimetableManagementServiceImpl implements TimetableManagementServic
         String time = timetableParams[2].substring(timetableParams[2].indexOf("=") + 1).replace("%3A", ":");
         String trainNumber = timetableParams[3].substring(timetableParams[3].indexOf("=") + 1);
 
-        LocalDate timetableDate = CustomConverter.convertStringToDate(date);
-        LocalTime timetableTime = CustomConverter.convertStringToTime(time);
+        LocalDateTime timetableDateAndTime = CustomConverter.convertStringToTimeAndDate(time, date);
 
         RouteNumber routeNumberFromDb = routeNumberDAO.getRouteNumber(routeNumber).get();
-        Train train = trainDAO.getTrainByNumber(trainNumber).get();
+        Train train = trainDAO.getTrainById(Integer.parseInt(trainNumber));
         train.setRouteNumber(routeNumberFromDb);
 
-        Timetable timetable = new Timetable(train, routeNumberFromDb, timetableTime, timetableDate);
+        Timetable timetable = new Timetable(train, routeNumberFromDb, timetableDateAndTime);
         timetableDAO.saveInTimetable(timetable);
     }
 }

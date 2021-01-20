@@ -14,7 +14,7 @@ public class TrainServiceImpl implements TrainService {
         if (trainNumber.contains("=")) {
             trainNumber = trainNumber.substring(trainNumber.indexOf("=") + 1);
         }
-        return trainDAO.getCurrentAvailableSeats(trainNumber);
+        return trainDAO.getCurrentAvailableSeats(Integer.parseInt(trainNumber));
     }
 
 }

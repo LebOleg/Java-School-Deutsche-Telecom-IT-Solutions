@@ -2,12 +2,11 @@ package ru.lebedev.SBBProject.dao;
 
 import org.springframework.stereotype.Repository;
 import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
+import ru.lebedev.SBBProject.dto.StationTimetableDTO;
 import ru.lebedev.SBBProject.model.Ticket;
 import ru.lebedev.SBBProject.model.Timetable;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,24 +17,32 @@ public class TimetableDAOImpl implements TimetableDAO {
     private EntityManager entityManager;
 
     @Override
-    public List<Timetable> getStationTimetable(String station) {
+    public List<Tuple> getStationTimetable(String station, LocalDateTime startDay, LocalDateTime endDay) {
 
-        return entityManager.createQuery("select t from Timetable t " +
-                "where t.station.name =:stationParam order by t.arrivalTime", Timetable.class)
-                .setParameter("stationParam", station)
-                .getResultList();
+        Query query = entityManager.createNativeQuery("Select tq.date as timetableDate, tq.route_number as routeNumber from " +
+                "(SELECT addtime(t.begin_time, r.travel_time) as date, t.route_number, r.travel_time FROM " +
+                "sbb.timetable as t join sbb.route as r on t.route_number=r.route_number and r.station_name = :station) as tq where " +
+                "tq.date > :startDay and tq.date < :endDay order by tq.date", Tuple.class);
+
+        query.setParameter("station", station);
+        query.setParameter("startDay", startDay);
+        query.setParameter("endDay", endDay);
+
+
+        List<Tuple> timetableForStation =  query.getResultList();
+
+        return timetableForStation;
 
     }
 
     @Override
-    public List<Ticket> getAvailableTicket(SearchTicketAttributes ticketAttributes, LocalDateTime fromTime, LocalDateTime toTime) {
+    public List<Tuple> getAvailableTicket(List<String> suitableRoutes, LocalDateTime fromTime, LocalDateTime toTime, String fromStation, String toStation) {
+        Query query = entityManager.createNativeQuery("select addtime(t.begin_time, r.travel_time) as time, t.train_number as trainNumber, t.route_number as routeNumber from Timetable t " +
+                "join Route r on t.route_number = r.route_number and r.station_name in (:sourceStation,:destinationStation) where t.route_number in :routeList and t.begin_time between :fromTime and :toTime order by t.train_number", Tuple.class);
 
-        TypedQuery<Ticket> query = entityManager.createQuery("select new Ticket(t.station, t1.station, t.departureTime, t1.arrivalTime,t.train) from Timetable t " +
-                "join Timetable t1 on t.train=t1.train and t1.station.name=:destinationStation and t.station.name=:sourceStation " +
-                "where t.departureTime between :fromTime and :toTime and t1.arrivalTime > t.departureTime", Ticket.class);
-
-        query.setParameter("destinationStation", ticketAttributes.getToStation());
-        query.setParameter("sourceStation", ticketAttributes.getFromStation());
+        query.setParameter("destinationStation", toStation);
+        query.setParameter("sourceStation", fromStation);
+        query.setParameter("routeList", suitableRoutes);
         query.setParameter("fromTime", fromTime);
         query.setParameter("toTime", toTime);
 

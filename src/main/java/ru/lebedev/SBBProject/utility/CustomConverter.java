@@ -11,6 +11,11 @@ import java.time.format.DateTimeFormatter;
 public class CustomConverter {
 
     public static LocalDateTime convertStringToTimeAndDate(String time, String date) {
+
+        if(time.equals("") || date.equals("")) {
+            return null;
+        }
+
         String fullDate = date + "T" + time;
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 

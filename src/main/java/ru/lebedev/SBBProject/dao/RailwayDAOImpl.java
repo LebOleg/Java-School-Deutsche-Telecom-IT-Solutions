@@ -20,7 +20,7 @@ public class RailwayDAOImpl implements RailwayDAO {
         try {
             return Optional.of(
                entityManager.createQuery("select r from Railway r where " +
-                       "r.fromStation.name=:fromStation and r.toStation.name=:toStation", Railway.class)
+                       "r.fromStation.name in (:fromStation, :toStation) and r.toStation.name in (:fromStation, :toStation)", Railway.class)
                        .setParameter("fromStation", fromStation)
                        .setParameter("toStation", toStation)
                        .getSingleResult()

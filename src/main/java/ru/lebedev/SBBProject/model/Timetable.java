@@ -18,11 +18,11 @@ import java.time.LocalTime;
 @EqualsAndHashCode
 public class Timetable {
 
-    public Timetable(Train train, RouteNumber route, LocalTime beginTime, LocalDate date) {
+    public Timetable(Train train, RouteNumber route, LocalDateTime beginTime) {
         this.train = train;
         this.route = route;
-        this.beginTime = beginTime;
-        this.date = date;
+        this.beginDateAndTime = beginTime;
+
     }
 
     @Id
@@ -37,7 +37,5 @@ public class Timetable {
     @JoinColumn(name = "route_number", referencedColumnName = "number")
     private RouteNumber route;
     @Column(name = "begin_time")
-    private LocalTime beginTime;
-    @Column(name = "date")
-    private LocalDate date;
+    LocalDateTime beginDateAndTime;
 }

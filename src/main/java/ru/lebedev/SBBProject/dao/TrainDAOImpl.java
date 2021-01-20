@@ -16,27 +16,24 @@ public class TrainDAOImpl implements TrainDAO {
     private EntityManager entityManager;
 
     @Override
-    public Integer getCurrentAvailableSeats(String trainNumber) {
+    public Integer getCurrentAvailableSeats(Integer trainNumber) {
         TypedQuery<Integer> query = entityManager.createQuery("select t.availableSeats from Train t " +
-                "where t.number=:trainNumber", Integer.class);
+                "where t.id=:trainNumber", Integer.class);
         query.setParameter("trainNumber", trainNumber);
 
         return query.getSingleResult();
     }
 
     @Override
-    public Optional<Train> getTrainByNumber(String number) {
-        Integer intNumber = Integer.valueOf(number);
+    public Train getTrainById(Integer number) {
 
-        try {
-            return Optional.of(
-                    entityManager.createQuery("select t from Train t where t.id=:number", Train.class)
-                            .setParameter("number", intNumber)
-                            .getSingleResult()
-            );
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+
+
+            return entityManager.createQuery("select t from Train t where t.id=:number", Train.class)
+                            .setParameter("number", number)
+                            .getSingleResult();
+
+
     }
 
     @Override

@@ -32,7 +32,7 @@ public class TicketController {
 
     @PostMapping("/processSearchTicket")
     public String processTicketSearch(@ModelAttribute("searchTicketAttr") SearchTicketAttributes searchTicketAttributes, Model model) {
-        List<Ticket> tickets = ticketService.findTicket(searchTicketAttributes);
+        List<TicketDTO> tickets = ticketService.findTicket(searchTicketAttributes);
         model.addAttribute("tickets", tickets);
         model.addAttribute("ticketDTO", new TicketDTO());
         return "search-ticket";

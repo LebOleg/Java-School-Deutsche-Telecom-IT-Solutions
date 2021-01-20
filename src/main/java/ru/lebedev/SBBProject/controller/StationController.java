@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.lebedev.SBBProject.dto.SearchStationTimetableDTO;
+import ru.lebedev.SBBProject.dto.StationTimetableDTO;
 import ru.lebedev.SBBProject.model.Timetable;
 import ru.lebedev.SBBProject.service.StationService;
 
@@ -16,7 +18,7 @@ public class StationController {
 
     @GetMapping("/searchStation")
     public String getStationSearch(Model model) {
-        model.addAttribute("stationName", "");
+        model.addAttribute("searchStation", new SearchStationTimetableDTO());
         return "autocomplete-search";
     }
 
@@ -27,8 +29,8 @@ public class StationController {
     }
 
     @PostMapping("/showTimetable")
-    public String showStationTimetable(@ModelAttribute("stationName") String station, Model model) {
-        List<Timetable> stationTimetable = stationService.getStationTimetable(station);
+    public String showStationTimetable(@ModelAttribute("searchStation") SearchStationTimetableDTO searchStationTimetableDTO, Model model) {
+        List<StationTimetableDTO> stationTimetable = stationService.getStationTimetable(searchStationTimetableDTO);
         model.addAttribute("timetable", stationTimetable);
         return "autocomplete-search";
     }

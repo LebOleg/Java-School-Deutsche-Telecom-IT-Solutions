@@ -15,7 +15,7 @@
 <body>
 <div class="container">
 <div class="col-md-8 offset-md-2">
-<h5 class="text-center font-weight-light pt-4">Ticket</h5>
+<h5 class="text-center font-weight-light pt-4">Билет</h5>
 
         <div class="card">
 
@@ -47,7 +47,7 @@
             </div>
         </div>
         <p></p>
-        <span class="badge badge-info badge-pill mt-3">available ${ticketDTO.availableSeats} seats </span>
+        <span class="badge badge-info badge-pill mt-3">Свободно ${ticketDTO.availableSeats} мест </span>
 
         </div>
         </div>
@@ -57,21 +57,21 @@
 
 <div class="container">
     <div class="p-4">
-        <h5 class="text-center font-weight-light" >Fill in forms</h5>
+        <h5 class="text-center font-weight-light"> Заполните данные</h5>
     </div>
     <div class="col-md-8 offset-md-2">
     <form:form class="form-horizontal" action="${pageContext.request.contextPath}/processPassengerForm" method="post" modelAttribute="passenger">
         <div class="row pb-2">
         <div class="col-4 form-group">
-        <form:input id="name" class="form-control" placeholder="Name" type="text" path="name"/>
+        <form:input id="name" class="form-control" placeholder="Имя" type="text" path="name"/>
         </div>
 
         <div class="col-4 form-group">
-            <form:input id="lastName" class="form-control" placeholder="Last Name" type="text" path="lastName"/>
+            <form:input id="lastName" class="form-control" placeholder="Фамилия" type="text" path="lastName"/>
         </div>
 
         <div class="col-4 form-group">
-            <form:input id="middleName" class="form-control" placeholder="Middle Name" type="text" path="middleName"/>
+            <form:input id="middleName" class="form-control" placeholder="Отчество" type="text" path="middleName"/>
         </div>
     </div>
         <div class="row pb-3">
@@ -87,7 +87,7 @@
 
             <div class="col-4 form-group">
                 <label for="birth"><small>&nbsp;</small></label>
-                <form:input id="pasport" class="form-control" type="text" placeholder="Passport number" path="passportNumber"/>
+                <form:input id="pasport" class="form-control" type="text" placeholder="Номер паспорта" path="passportNumber"/>
                 <form:input path="ticketDTO.train" type="hidden" value="${ticketDTO.train}" name="train"/>
                 <form:input path="ticketDTO.departureTime" type="hidden" value="${ticketDTO.departureTime}"/>
                 <form:input path="ticketDTO.sourceStation" type="hidden" value="${ticketDTO.sourceStation}"/>
@@ -101,11 +101,11 @@
 
         <div class="row">
             <div class="col-6 form-group">
-                <input type="button" value="Cancel" class="btn btn-info rounded-0" onclick="goBack()">
+                <input type="button" value="Назад" class="btn btn-info rounded-0" onclick="goBack()">
             </div>
 
             <div class="col-6 form-group">
-            <input type="submit" value="Buy" class="btn btn-info rounded-0" style="width: 25%; float: right">
+            <input type="submit" value="Купить" class="btn btn-info rounded-0" style="width: 25%; float: right">
             </div>
         </div>
     </form:form>

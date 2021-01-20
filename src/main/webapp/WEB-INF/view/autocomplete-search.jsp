@@ -19,15 +19,16 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-md-6 offset-md-3 p-2 mt-4 rounded">
-            <h4 class="text-center font-weight-light"> search station </h4>
-                <form:form action="${pageContext.request.contextPath}/showTimetable" method="POST" modelAttribute="stationName" class="form-inline p-3">
-                    <input type="text" name="stationName" placeholder="Station" id = "search" class="form-control form-control-lg rounded-0 border-info" style="width: 80%;">
+        <div class="col-md-8 offset-md-2 p-2 mt-4 rounded">
+            <h4 class="text-center font-weight-light"> Расписание по станциям </h4>
+                <form:form action="${pageContext.request.contextPath}/showTimetable" method="POST" modelAttribute="searchStation" class="form-inline p-3">
+                    <form:input path="stationName" type="text" name="stationName" placeholder="Station" id = "search" class="form-control form-control-lg rounded-0 border-info col-4"/>
+                    <form:input path="date" type="date" name="stationName"  class="form-control form-control-lg rounded-0 border-info col-4"/>
                     <input type="submit" name="submit" value="Search" class="btn btn-info btn-lg rounded-0" style="width: 20%;"
                 </form:form>
         </div>
 
-        <div class="col-md-4" style=" width: 40.5%; position: relative; top: -37px; left: 275px;">
+        <div class="col-md-4" style=" width: 24%; position: relative; top: -40px; left: 184px;">
             <div class="list-group">
                 <a id="show-list" href="#" class="list-group-item list-group-item-action border-1" style="display: none"> List 1</a>
             </div>
@@ -39,25 +40,31 @@
     <c:choose>
         <c:when test="${not empty timetable}">
             <div id="timetable" class="container p-4">
-                <div class="row">
+
                     <div class="col-md-6 offset-md-3">
-                        <h6 class="text-center font-weight-light">${stationName}</h6>
-                        <ul class="list-group">
+                        <div class="row offset-5">
+                        <h6 class="font-weight-light">${searchStation.stationName}</h6>
+                        <h6 class="font-weight text-right col-10">${searchStation.date}</h6>
+                        </div>
+                        <div class="row">
+                        <ul class="list-group col-11">
                         <c:forEach items="${timetable}" var="timetable">
-                            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                <div class="flex-column">
-                                    №${timetable.train.number}
-                                    <p class="font-weight-bold">${timetable.arrivalTime.hour}:${timetable.arrivalTime.minute}</p>
-                                    <span class="badge badge-info badge-pill">available ${timetable.train.availableSeats} seats </span>
+                            <div class="list-group-item list-group-item-action">
+                                <div class="">
+                                   Поезд №${timetable.routeNumber}
+                                    <p></p>
+                                    <div><span class="font-weight-bold">${timetable.departureTime.toLocalTime()}</span>
+                                    </div>
                                 </div>
                             </div>
                         </c:forEach>
         </c:when>
         <c:otherwise>
-                            <p class="text-center">Station "${stationName}" doesn't exist</p>
+                            <p class="text-center">Записей нет</p>
 
         </c:otherwise>
     </c:choose>
 </c:if>
+                        </div>
 </body>
 </html>
