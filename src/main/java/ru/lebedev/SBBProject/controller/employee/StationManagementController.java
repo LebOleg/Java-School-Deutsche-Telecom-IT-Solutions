@@ -1,30 +1,31 @@
 package ru.lebedev.SBBProject.controller.employee;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import ru.lebedev.SBBProject.dao.StationDAO;
-import ru.lebedev.SBBProject.model.Route;
-import ru.lebedev.SBBProject.service.StationService;
+import org.springframework.web.bind.annotation.*;
+import ru.lebedev.SBBProject.service.employee.RailwayManagementService;
 import ru.lebedev.SBBProject.service.employee.StationManagementService;
 
-import java.util.Optional;
-
 @Controller
+@RequestMapping("/employee/station")
 public class StationManagementController {
 
     @Autowired
     private StationManagementService stationService;
+    @Autowired
+    private RailwayManagementService railwayService;
 
-
+    @GetMapping("/showRailway")
+    public String getSigmaTest(Model model) {
+        JSONObject jsonGraph = railwayService.getRailwayGraph();
+        model.addAttribute("graph", jsonGraph.toString());
+        return "graph";
+    }
 
     @GetMapping("/getStationCreateForm")
-    public String getStationCreateForm(Model model) {
-        model.addAttribute("route", new Route());
+    public String getStationCreateForm() {
         return "create-railway";
     }
 

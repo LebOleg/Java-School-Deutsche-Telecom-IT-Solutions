@@ -8,4 +8,6 @@ public interface UserService {
     void save(User user);
 
     boolean checkIfUsernameExists(User user);
+
+    boolean isAuthenticated();
 }

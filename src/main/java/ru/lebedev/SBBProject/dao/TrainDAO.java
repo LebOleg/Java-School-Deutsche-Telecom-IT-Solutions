@@ -2,6 +2,7 @@ package ru.lebedev.SBBProject.dao;
 
 import ru.lebedev.SBBProject.model.Train;
 
+import javax.persistence.Tuple;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,6 @@ public interface TrainDAO {
     void saveTrain(Train train);
 
     List<Train> getAvailableTrains();
+
+    List<Tuple> getAllTrains();
 }

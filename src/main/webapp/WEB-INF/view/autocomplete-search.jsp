@@ -12,23 +12,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>const myContextPath = "${pageContext.request.contextPath}"</script>
-    <script type="text/javascript" src="resources/js/autocomplete.js"></script>
+    <script src="https://kit.fontawesome.com/7b83e77052.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/autocomplete.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/nav.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
+
     <sec:csrfMetaTags />
 </head>
 
 <body>
+
+<%@ include file="nav.jsp"%>
 <div class="container">
     <div class="row">
-        <div class="col-md-8 offset-md-2 p-2 mt-4 rounded">
-            <h4 class="text-center font-weight-light"> Расписание по станциям </h4>
+        <div class="col-md-6 offset-3 p-2 mt-4 rounded">
                 <form:form action="${pageContext.request.contextPath}/showTimetable" method="POST" modelAttribute="searchStation" class="form-inline p-3">
-                    <form:input path="stationName" type="text" name="stationName" placeholder="Station" id = "search" class="form-control form-control-lg rounded-0 border-info col-4"/>
-                    <form:input path="date" type="date" name="stationName"  class="form-control form-control-lg rounded-0 border-info col-4"/>
-                    <input type="submit" name="submit" value="Search" class="btn btn-info btn-lg rounded-0" style="width: 20%;"
+                    <form:input path="stationName" type="text" name="stationName" placeholder="Станция" id = "search" class="form-control rounded-0 "/>
+                    <form:input path="date" type="date" name="stationName"  class="form-control rounded-0"/>
+                    <input type="submit" name="submit" value="Поиск" class="btn btn-info rounded-0" style="width: 20%;"
                 </form:form>
         </div>
 
-        <div class="col-md-4" style=" width: 24%; position: relative; top: -40px; left: 184px;">
+        <div class="col-md-3" style=" width: 22.5%; position: relative; top: -40px; left: 278px;">
             <div class="list-group">
                 <a id="show-list" href="#" class="list-group-item list-group-item-action border-1" style="display: none"> List 1</a>
             </div>
@@ -42,12 +47,18 @@
             <div id="timetable" class="container p-4">
 
                     <div class="col-md-6 offset-md-3">
-                        <div class="row offset-5">
-                        <h6 class="font-weight-light">${searchStation.stationName}</h6>
-                        <h6 class="font-weight text-right col-10">${searchStation.date}</h6>
-                        </div>
-                        <div class="row">
                         <ul class="list-group col-11">
+
+                            <div class="row">
+                            <div class="list-group-item list-group-item-action " style="background-color: black" >
+                            <div class="d-flex justify-content-center"> <h6 class="font-weight-light" style="color: white">${searchStation.stationName}</h6></div>
+                                <div class="d-flex justify-content-center">
+                        <h6 class="font-weight" style="color: white">${searchStation.date}</h6>
+                                </div>
+                        </div>
+                            </div>
+                        <div class="row">
+
                         <c:forEach items="${timetable}" var="timetable">
                             <div class="list-group-item list-group-item-action">
                                 <div class="">
@@ -60,7 +71,7 @@
                         </c:forEach>
         </c:when>
         <c:otherwise>
-                            <p class="text-center">Записей нет</p>
+                            <p class="text-center" style="color: white">Записей нет</p>
 
         </c:otherwise>
     </c:choose>

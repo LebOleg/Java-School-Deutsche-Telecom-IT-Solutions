@@ -17,6 +17,7 @@ import java.util.List;
 
 
 @Controller
+@RequestMapping("/ticket")
 public class TicketController {
 
     @Autowired
@@ -24,18 +25,12 @@ public class TicketController {
     @Autowired
     private TrainService trainService;
 
-    @GetMapping("/searchTicket")
-    public String showTicketSearchForm(Model model) {
-        model.addAttribute("searchTicketAttr", new SearchTicketAttributes());
-        return "search-ticket";
-    }
-
     @PostMapping("/processSearchTicket")
     public String processTicketSearch(@ModelAttribute("searchTicketAttr") SearchTicketAttributes searchTicketAttributes, Model model) {
         List<TicketDTO> tickets = ticketService.findTicket(searchTicketAttributes);
         model.addAttribute("tickets", tickets);
         model.addAttribute("ticketDTO", new TicketDTO());
-        return "search-ticket";
+        return "index";
     }
 
     @PostMapping("/fillPassenger")

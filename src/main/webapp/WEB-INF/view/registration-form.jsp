@@ -1,50 +1,45 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!doctype html>
-<html lang="en">
+<html>
 
 <head>
 	
-	<title>Register New User Form</title>
-	
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link rel="stylesheet"
-		 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-	
-	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="resources/css/error.css" />
+	<title>Регистрация</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://kit.fontawesome.com/7b83e77052.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/error.css"/>
 
 </head>
 
 <body>
-
+<%@include file="nav.jsp"%>
 	<div>
 
-		<div id="signupbox" style = "margin-top: 50px"
-			 class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
+		<div id="signupbox"
+			 class="container col-md-4 col-md-offset-3 pt-5">
 
-			<div class="panel panel-info">
+			<div class="card">
 
-				<div class="panel-heading">
-					<div class="panel-title">Register New User</div>
+				<div class="card-header d-flex align-items-center justify-content-center" style="background: black">
+					<div class="card-title font-weight-bold" style="color: white">Регистрация</div>
 				</div>
 
-				<div style="padding-top: 30px" class="panel-body">
+				<div  class="card-body">
 
-					<!-- Registration Form -->
-					<form:form action="${pageContext.request.contextPath}/processRegistrationForm"
+					<form:form action="${pageContext.request.contextPath}/registration/processRegistrationForm"
 							   method="post" modelAttribute="user" class="form-horizontal">
 
-						<div class="col-xs-15">
+						<div class="col-12">
 							<div>
 
 								<c:if test="${registrationError != null}">
-									<div class="error" style="margin-bottom: 10px">
+									<div class="error">
 											${registrationError}
 									</div>
 								</c:if>
@@ -53,42 +48,50 @@
 						</div>
 
 						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-							<form:input path="username" placeholder="username (*)" class="form-control" />
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<form:input path="username" placeholder="Имя пользователя*" class="form-control" />
 						</div>
-						<div style="margin-bottom: 25px">
+						<div class="mb-1">
 							<form:errors path="username" cssClass="error" />
 						</div>
 
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-							<form:password path="password" placeholder="password (*)" class="form-control" />
+
+						<div class="input-group mt-4">
+							<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+								<form:password path="password" placeholder="Пароль*" class="form-control" />
 						</div>
-						<div style="margin-bottom: 25px">
+
+						<div class="mb-1">
 							<form:errors path="password" cssClass="error" />
 						</div>
 
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-							<form:password path="matchingPassword" placeholder="confirm password (*)" class="form-control" />
+						<div class="input-group mt-4">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+								<form:password path="matchingPassword" placeholder="Подтвердите пароль*" class="form-control" />
 						</div>
 
-						<div style="margin-bottom: 25px">
+						<div class="mb-1">
 							<form:errors path="password" cssClass="error" />
 						</div>
 
-						<div style="margin-top: 10px" class="form-group">
-							<div class="col-sm-6 controls">
-								<button type="submit" class="btn btn-success">Register</button>
+						<div class="form-group mt-4">
+							<div>
+								<button type="submit" class="btn btn-info">Регистрация</button>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-md-12 control">
 								<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
-									Already have an account?
+									Уже есть аккаунт?
 									<a href="${pageContext.request.contextPath}/showLoginPage">
-										Sign In
+										Войти
 									</a>
 								</div>
 							</div>

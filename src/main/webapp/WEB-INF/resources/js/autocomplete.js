@@ -22,7 +22,7 @@ $(document).ready(function() {
             document.getElementById("show-list").style.display = "none";
         }
     });
-    $(document).on('click', 'a', function (){
+    $(document).on('click', 'a#show-list', function (){
         $("#search").val($(this).text());
         document.getElementById("show-list").style.display = "none";
     });

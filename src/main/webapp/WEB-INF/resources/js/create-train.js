@@ -9,7 +9,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: myContextPath + "/createTrain",
+            url: myContextPath + "/employee/train/createTrain",
             method: 'POST',
             data: {seats : seats, trains : trainQuantity},
             success: function (response) {

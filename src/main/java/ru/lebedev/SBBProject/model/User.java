@@ -20,17 +20,17 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @FieldMatch(first = "password", second = "matchingPassword",
-        message = "The password fields must match",
+        message = "Пароли не совпадают",
         groups = {PasswordGroup.class})
 public class User {
     @Id
     @Column(name = "username", columnDefinition = "VARCHAR(64)")
-    @Pattern(regexp = "[a-zA-Z0-9]*", message = "wrong format")
-    @NotBlank(message = "username is required")
+    @Pattern(regexp = "[a-zA-Z0-9]*", message = "Неверный формат")
+    @NotBlank(message = "Требуется ввести имя пользователя")
     private String username;
     @Column(name = "password")
-    @Pattern(regexp = "[a-zA-Z0-9]*", message = "wrong format", groups = {PasswordGroup.class})
-    @NotBlank(message = "password is required")
+    @Pattern(regexp = "[a-zA-Z0-9]*", message = "Неверный формат", groups = {PasswordGroup.class})
+    @NotBlank(message = "Требуется ввести пароль")
     private String password;
     @Transient
     private String matchingPassword;

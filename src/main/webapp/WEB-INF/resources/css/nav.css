@@ -1,0 +1,13 @@
+body {
+    font-family: 'Nunito', sans-serif;
+
+    background: url("../img/background.jpg") no-repeat center center fixed;
+
+}
+
+.bg-navbar
+{
+    background: black;
+
+}
+

@@ -5,24 +5,25 @@
 
 <html>
 <head>
-    <title>Fill your data</title>
+    <title>Заполните данные</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/nav.css" />
+    <script src="https://kit.fontawesome.com/7b83e77052.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
-<div class="container">
+<%@include file="nav.jsp"%>
+<div class="container pt-4">
 <div class="col-md-8 offset-md-2">
-<h5 class="text-center font-weight-light pt-4">Билет</h5>
 
         <div class="card">
 
-          <h6 class="card-title text-center pt-2"> №${ticketDTO.train}</h6>
-
-
-
+          <h6 class="card-title text-center pt-2"> №${ticketDTO.routeNumber}</h6>
 
         <p></p>
         <div class="card-body">
@@ -57,10 +58,10 @@
 
 <div class="container">
     <div class="p-4">
-        <h5 class="text-center font-weight-light"> Заполните данные</h5>
+        <h5 class="text-center font-weight-light"></h5>
     </div>
     <div class="col-md-8 offset-md-2">
-    <form:form class="form-horizontal" action="${pageContext.request.contextPath}/processPassengerForm" method="post" modelAttribute="passenger">
+    <form:form class="form-horizontal" action="${pageContext.request.contextPath}/ticket/processPassengerForm" method="post" modelAttribute="passenger">
         <div class="row pb-2">
         <div class="col-4 form-group">
         <form:input id="name" class="form-control" placeholder="Имя" type="text" path="name"/>
@@ -76,7 +77,7 @@
     </div>
         <div class="row pb-3">
             <div class="col-4 form-group">
-                <label for="birth"><small>Birthday</small></label>
+                <label for="birth"><small style="color: white">Дата рождения</small></label>
             <form:input id="birth" class="form-control" type="date" path="birthday"/>
             </div>
 

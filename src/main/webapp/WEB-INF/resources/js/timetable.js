@@ -14,7 +14,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: myContextPath + "/processTimetable",
+            url: myContextPath + "/employee/timetable/processTimetable",
             method: 'POST',
             data: {number : number, data : date, time:time, train:trainNumber},
             success: function (response) {

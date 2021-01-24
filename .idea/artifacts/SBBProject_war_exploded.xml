@@ -59,6 +59,7 @@
           <element id="library" level="project" name="Maven: org.webjars:bootstrap:4.5.3" />
           <element id="library" level="project" name="Maven: org.webjars:jquery:3.5.1" />
           <element id="library" level="project" name="Maven: org.webjars:popper.js:1.16.0" />
+          <element id="library" level="project" name="Maven: org.json:json:20201115" />
         </element>
       </element>
       <element id="directory" name="META-INF">

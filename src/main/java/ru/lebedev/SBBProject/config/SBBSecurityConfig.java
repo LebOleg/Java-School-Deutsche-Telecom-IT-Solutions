@@ -20,10 +20,15 @@ public class SBBSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/searchStation").permitAll()
-                .antMatchers("/resources/**").permitAll()
-                .antMatchers("/").authenticated()
+                .antMatchers("**/resources/**").permitAll()
                 .antMatchers("/system/**").hasRole("ADMIN")
+                .antMatchers("/registration/**").not().authenticated()
+                .antMatchers("/ticket/processSearchTicket").permitAll()
+                .antMatchers("/ticket/**").hasRole("USER")
+                .antMatchers("/employee/**").hasRole("EMPLOYEE")
+
                 .and()
                 .formLogin().loginPage("/showLoginPage")
                 .loginProcessingUrl("/authenticateTheUser")

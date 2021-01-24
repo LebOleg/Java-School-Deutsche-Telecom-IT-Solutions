@@ -21,7 +21,7 @@ public class RouteNumber {
     }
 
     @Id
-    @Column(name = "number")
+    @Column(name = "number",  columnDefinition = "VARCHAR(64)")
     private String number;
 
     @OneToMany(mappedBy = "routeNumber")

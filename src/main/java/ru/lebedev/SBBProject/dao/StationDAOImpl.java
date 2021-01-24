@@ -5,6 +5,7 @@ import ru.lebedev.SBBProject.model.Station;
 import ru.lebedev.SBBProject.model.User;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -37,5 +38,14 @@ public class StationDAOImpl implements StationDAO {
     @Override
     public void save(Station station) {
         entityManager.persist(station);
+    }
+
+    @Override
+    public List<Station> getAllStations() {
+
+        List<Station> stations = entityManager.createQuery("select s from Station s", Station.class)
+                .getResultList();
+
+        return stations;
     }
 }

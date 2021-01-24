@@ -4,7 +4,6 @@ $(document).ready(function () {
         let routFromStation = $('#routeFromStation').val();
         let routToStation = $('#routeToStation').val();
         let travelTime = $('#travelTime').val();
-        alert('r');
         let csrfHeader = $("meta[name='_csrf_header']").attr("content");
         let csrfToken = $("meta[name='_csrf']").attr("content");
         $(document).ajaxSend(function(e, xhr, options) {
@@ -12,7 +11,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: myContextPath + "/addPath",
+            url: myContextPath + "/employee/route/addPath",
             method: 'POST',
             data: {routeName: routeName, routFromStation : routFromStation, routToStation:routToStation, travelTime:travelTime
             },

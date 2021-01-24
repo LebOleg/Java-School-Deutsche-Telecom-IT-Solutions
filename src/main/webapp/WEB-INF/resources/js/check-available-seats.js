@@ -2,7 +2,7 @@ $(document).ready(function () {
     $(document).on('click', '.myButton', function () {
 
         let button = $(this);
-        let trainNumber =$(button).parent().find('.trains').text();
+        let trainNumber =$(button).parent().find('.trains').val()
         let form = $(button).closest('form.MyForm');
 
         let csrfHeader = $("meta[name='_csrf_header']").attr("content");
@@ -12,11 +12,11 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: myContextPath + "/checkAvailableSeats",
+            url: myContextPath + "/ticket/checkAvailableSeats",
             method: 'POST',
             data: {query : trainNumber},
             success: function (response) {
-                $(form).find('.seats').text('available ' + response + ' seats');
+                $(form).find('.seats').text('Свободно ' + response + ' мест');
                 $(form).find('.myInput').val(response);
                 if (response == 0) {
                     alert("No seats");

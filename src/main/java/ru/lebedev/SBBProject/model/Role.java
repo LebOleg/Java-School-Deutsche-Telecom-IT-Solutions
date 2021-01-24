@@ -21,7 +21,7 @@ public class Role {
     }
 
     @Id
-    @Column(name = "authority")
+    @Column(name = "authority",  columnDefinition = "VARCHAR(64)")
     private String role;
     @ManyToMany(mappedBy = "roles")
     private List<User> users;

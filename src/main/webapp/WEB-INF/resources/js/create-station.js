@@ -8,9 +8,9 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: myContextPath + "/createStation",
+            url: myContextPath + "/employee/station/createStation",
             method: 'POST',
-            data: {query : station},
+            data: {query :station},
             success: function (response) {
                 if (response == 'true') {
                     $('#stationName').val("");

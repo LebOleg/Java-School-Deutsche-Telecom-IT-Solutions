@@ -11,10 +11,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>const myContextPath = "${pageContext.request.contextPath}"</script>
-    <script type="text/javascript" src="resources/js/timetable.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/timetable.js"></script>
     <sec:csrfMetaTags />
 </head>
 <body>
+<%@ include file="nav.jsp"%>
 
 <c:if test="${trains != null}">
 <c:choose>
@@ -22,7 +23,7 @@
 <div id="trains" class="container p-4">
 
         <div class="col-md-3">
-            <h5 class="text-center font-weight-light pb-3">Добавить в расписание</h5>
+            <h5 class="text-center font-weight-light pb-3" style="color:white;">Добавить в расписание</h5>
             <ul class="list-group">
                 <c:forEach items="${trains}" var="train">
               <div class="row">

@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.lebedev.SBBProject.model.User;
 import ru.lebedev.SBBProject.service.UserService;
 import ru.lebedev.SBBProject.validation.PasswordGroup;
@@ -15,6 +16,7 @@ import ru.lebedev.SBBProject.validation.PasswordGroup;
 import javax.validation.groups.Default;
 
 @Controller
+@RequestMapping("/registration")
 public class RegistrationController {
     @Autowired
     private UserService userService;

@@ -8,6 +8,8 @@ import ru.lebedev.SBBProject.dao.StationDAO;
 import ru.lebedev.SBBProject.model.Railway;
 import ru.lebedev.SBBProject.model.Station;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @Service
@@ -20,19 +22,19 @@ public class StationManagementServiceImpl implements StationManagementService{
     @Transactional
     @Override
     public Boolean createStation(String stationName){
-
-        if(stationName.contains("=")) {
-            stationName = stationName.substring(stationName.indexOf("=") + 1);
+        String decodeStation = URLDecoder.decode(stationName, StandardCharsets.UTF_8);
+        if(decodeStation.contains("=")) {
+            decodeStation = decodeStation.substring(decodeStation.indexOf("=") + 1);
         }
 
-        stationName = stationName.trim();
-        if(stationName.equals("") || stationName == null) {
+        decodeStation = decodeStation.trim();
+        if(decodeStation.equals("") || decodeStation == null) {
             return false;
         }
 
-        Optional<Station> station = stationDAO.getStationByName(stationName);
+        Optional<Station> station = stationDAO.getStationByName(decodeStation);
         if(!station.isPresent()) {
-            stationDAO.save(new Station(stationName));
+            stationDAO.save(new Station(decodeStation));
             return true;
         }
         else {

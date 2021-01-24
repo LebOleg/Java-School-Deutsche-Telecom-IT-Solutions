@@ -4,7 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.lebedev.SBBProject.dao.TrainDAO;
+import ru.lebedev.SBBProject.dto.TrainDTO;
 import ru.lebedev.SBBProject.model.Train;
+
+import javax.persistence.Tuple;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TrainManagementServiceImpl implements TrainManagementService {
@@ -39,5 +44,24 @@ public class TrainManagementServiceImpl implements TrainManagementService {
     private boolean isNumber(String supposedNumber) {
 
         return supposedNumber.matches("[0-9]+");
+    }
+
+    @Override
+    public List<TrainDTO> getAllTrains() {
+        List<Tuple> tupleTrains = trainDAO.getAllTrains();
+        List<TrainDTO> trains = new ArrayList<>();
+
+        for(Tuple t: tupleTrains) {
+            int id = t.get("id", Integer.class);
+            int availableSeats = t.get("availableSeats", Integer.class);
+            String routeNumber = t.get("routeNumber", String.class);
+
+            TrainDTO trainDTO = new TrainDTO(id, availableSeats, routeNumber);
+
+            trains.add(trainDTO);
+
+        }
+
+        return trains;
     }
 }

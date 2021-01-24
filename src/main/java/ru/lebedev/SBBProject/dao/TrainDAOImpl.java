@@ -3,10 +3,7 @@ package ru.lebedev.SBBProject.dao;
 import org.springframework.stereotype.Repository;
 import ru.lebedev.SBBProject.model.Train;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +49,10 @@ public class TrainDAOImpl implements TrainDAO {
 
         return entityManager.createQuery("select t from Train t where t.routeNumber.number=null", Train.class)
                 .getResultList();
+    }
+
+    @Override
+    public List<Tuple> getAllTrains() {
+        return entityManager.createNativeQuery("select id, seats_available as availableSeats, route_number as routeNumber from train", Tuple.class).getResultList();
     }
 }

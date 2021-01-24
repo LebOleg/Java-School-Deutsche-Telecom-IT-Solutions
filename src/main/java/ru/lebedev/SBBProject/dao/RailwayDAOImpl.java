@@ -6,6 +6,7 @@ import ru.lebedev.SBBProject.model.Railway;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -34,5 +35,14 @@ public class RailwayDAOImpl implements RailwayDAO {
     @Override
     public void save(Railway railway) {
         entityManager.persist(railway);
+    }
+
+    @Override
+    public List<Railway> getAllRailways() {
+
+        List<Railway> railways = entityManager.createQuery("select r from Railway r", Railway.class)
+                .getResultList();
+
+        return railways;
     }
 }

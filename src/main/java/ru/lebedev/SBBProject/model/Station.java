@@ -21,6 +21,6 @@ public class Station {
     }
 
     @Id
-    @Column(name = "name")
+    @Column(name = "name", columnDefinition = "VARCHAR(64)")
     private String name;
 }
