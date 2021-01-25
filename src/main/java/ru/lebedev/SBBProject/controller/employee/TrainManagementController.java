@@ -3,8 +3,11 @@ package ru.lebedev.SBBProject.controller.employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.lebedev.SBBProject.dto.TrainDTO;
+import ru.lebedev.SBBProject.model.RouteNumber;
+import ru.lebedev.SBBProject.service.employee.RouteManagementService;
 import ru.lebedev.SBBProject.service.employee.TrainManagementService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,16 +19,20 @@ public class TrainManagementController {
 
     @Autowired
     private TrainManagementService trainService;
+    @Autowired
+    private RouteManagementService routeService;
 
     @GetMapping("/getCreateTrainForm")
-    public String getCreateTrainForm() {
+    public String getCreateTrainForm(Model model) {
+        List<RouteNumber> routeNumbers = routeService.getAllRouteNumbers();
+        model.addAttribute("routes", routeNumbers);
 
         return "create-train";
     }
 
     @PostMapping("/createTrain")
-    public @ResponseBody String createTrains(@RequestBody String trainInfo) {
-
+    public @ResponseBody
+    String createTrains(@RequestBody String trainInfo) {
         return trainService.createTrain(trainInfo).toString();
     }
 
@@ -33,9 +40,9 @@ public class TrainManagementController {
     public String showTrains(@PathVariable(required = false, name = "page") String page, HttpServletRequest request) {
         PagedListHolder<TrainDTO> trains;
 
-        if(page == null) {
+        if (page == null) {
             trains = new PagedListHolder<>();
-            List<TrainDTO>  trainList = trainService.getAllTrains();
+            List<TrainDTO> trainList = trainService.getAllTrains();
 
             trains.setSource(trainList);
             trains.setPageSize(5);

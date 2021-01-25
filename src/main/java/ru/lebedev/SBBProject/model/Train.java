@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "train")
@@ -16,8 +15,9 @@ import java.util.List;
 @EqualsAndHashCode
 public class Train {
 
-    public Train(Integer availableSeats) {
+    public Train(Integer availableSeats, RouteNumber routeNumber) {
         this.availableSeats = availableSeats;
+        this.routeNumber = routeNumber;
     }
 
     @Id
@@ -31,4 +31,5 @@ public class Train {
     @ManyToOne
     @JoinColumn(name = "route_number", referencedColumnName = "number")
     private RouteNumber routeNumber;
+
 }

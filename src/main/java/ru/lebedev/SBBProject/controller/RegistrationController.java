@@ -30,6 +30,7 @@ public class RegistrationController {
     @PostMapping("/processRegistrationForm")
     public String processForm(@ModelAttribute("user") @Validated(value = {Default.class, PasswordGroup.class}) User user,
                               BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             return "registration-form";
         }
@@ -38,7 +39,7 @@ public class RegistrationController {
 
         if (userService.checkIfUsernameExists(checkUser)) {
             model.addAttribute("user", new User());
-            model.addAttribute("registrationError", "This user already exists");
+            model.addAttribute("registrationError", "Этот пользователь уже существует");
             return "registration-form";
         }
 

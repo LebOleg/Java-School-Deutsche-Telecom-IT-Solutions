@@ -1,8 +1,5 @@
 package ru.lebedev.SBBProject.dao;
 
-import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
-import ru.lebedev.SBBProject.dto.StationTimetableDTO;
-import ru.lebedev.SBBProject.model.Ticket;
 import ru.lebedev.SBBProject.model.Timetable;
 
 import javax.persistence.Tuple;

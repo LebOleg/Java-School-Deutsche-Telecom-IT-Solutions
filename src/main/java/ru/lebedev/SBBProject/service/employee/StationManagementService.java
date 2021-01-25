@@ -4,7 +4,6 @@ public interface StationManagementService {
 
     Boolean createStation(String stationName);
 
-
     Boolean createConnection(String stations);
 
 }

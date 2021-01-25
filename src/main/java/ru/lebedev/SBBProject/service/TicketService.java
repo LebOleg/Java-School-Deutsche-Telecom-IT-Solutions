@@ -5,6 +5,7 @@ import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
 import ru.lebedev.SBBProject.dto.TicketDTO;
 import ru.lebedev.SBBProject.model.Ticket;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -12,5 +13,7 @@ public interface TicketService {
 
     List<TicketDTO> findTicket(SearchTicketAttributes searchTicketAttributes);
 
-    public void buyTicket(String username, TicketDTO ticketDTO, PassengerDTO passengerDTO);
+    void buyTicket(String username, PassengerDTO passengerDTO);
+
+    List<Ticket> getUserTickets(Principal principal);
 }

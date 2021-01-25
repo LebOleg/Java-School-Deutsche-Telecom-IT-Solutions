@@ -26,7 +26,7 @@ public class Route {
     @Column(name = "id")
     private int id;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "route_number",  referencedColumnName = "number")
+    @JoinColumn(name = "route_number", referencedColumnName = "number")
     private RouteNumber routeNumber;
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "station_name")

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.lebedev.SBBProject.dto.PassengerDTO;
 import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
 import ru.lebedev.SBBProject.dto.TicketDTO;
-import ru.lebedev.SBBProject.model.Passenger;
 import ru.lebedev.SBBProject.model.Ticket;
+import ru.lebedev.SBBProject.service.PassengerService;
 import ru.lebedev.SBBProject.service.TicketService;
 import ru.lebedev.SBBProject.service.TrainService;
 
@@ -24,6 +24,8 @@ public class TicketController {
     private TicketService ticketService;
     @Autowired
     private TrainService trainService;
+    @Autowired
+    private PassengerService passengerService;
 
     @PostMapping("/processSearchTicket")
     public String processTicketSearch(@ModelAttribute("searchTicketAttr") SearchTicketAttributes searchTicketAttributes, Model model) {
@@ -46,10 +48,22 @@ public class TicketController {
     }
 
     @PostMapping("/processPassengerForm")
-    public String processPassengerForm(Principal principal, @ModelAttribute("passenger") PassengerDTO passenger) {
-        PassengerDTO p = passenger;
+    public String processPassengerForm(Principal principal, @ModelAttribute("passenger") PassengerDTO passenger, Model model) {
+        Boolean passengerOnTrain = passengerService.passengerOnTrainExists(PassengerDTO.convertToPassenger(passenger));
+        if (passengerOnTrain) {
+            model.addAttribute("error", "Такой пассажир уже зарегистрирован на данном поезде");
+            return "ticket-error";
+        }
+
         String username = principal.getName();
-        ticketService.buyTicket(username, passenger.getTicketDTO(), passenger);
+        ticketService.buyTicket(username, passenger);
         return "ticket-success";
+    }
+
+    @GetMapping("/getTickets")
+    public String getUserTickets(Principal principal, Model model) {
+        List<Ticket> tickets = ticketService.getUserTickets(principal);
+        model.addAttribute("tickets", tickets);
+        return "user-tickets";
     }
 }

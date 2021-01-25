@@ -7,8 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -38,7 +36,6 @@ public class Passenger {
     @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(mappedBy = "passenger")
-    @Column(name = "ticket")
     private List<Ticket> tickets;
 
     public static Passenger createPassenger(String name, String lastName, String middleName,
@@ -51,6 +48,6 @@ public class Passenger {
         passenger.email = email;
         passenger.passportNumber = passportNumber;
 
-    return passenger;
+        return passenger;
     }
 }

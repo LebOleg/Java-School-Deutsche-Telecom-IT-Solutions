@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Список поездов</title>
+    <title>Список пассажиров</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -16,59 +16,49 @@
     <table class="table">
         <thead style="background-color: black">
         <tr style="color: white">
-            <th scope="col">№</th>
-            <th scope="col">Свободные места</th>
-            <th scope="col">Маршрут</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Отчество</th>
+            <th scope="col">Дата рождения</th>
+            <th scope="col">Номер пасспорта</th>
         </tr>
         </thead>
         <tbody style="background-color: white">
-        <c:forEach items="${trains.pageList}" var="train">
+        <c:forEach items="${passengers.pageList}" var="passenger">
 
             <tr>
-                <td>${train.availableSeats}</td>
-
-                <c:choose>
-                    <c:when test="${empty train.routeNumber}">
-                        <td>Маршрут не назначен</td>
-                    </c:when>
-
-                    <c:otherwise>
-                        <td>${train.routeNumber}</td>
-                    </c:otherwise>
-
-                </c:choose>
-
-                <td>
-                    <a href="${pageContext.request.contextPath}/employee/passengers/getPassengers/${train.id}">Список
-                        пассажиров</a>
-                </td>
-
+                <td>${passenger.name}</td>
+                <td>${passenger.lastName}</td>
+                <td>${passenger.middleName}</td>
+                <td>${passenger.birthday}</td>
+                <td>${passenger.passportNumber}</td>
             </tr>
+
         </c:forEach>
 
-
         <br/>
+
         <tr>
             <td>
                 <c:choose>
 
-                    <c:when test="${trains.firstPage}">
+                    <c:when test="${passengers.firstPage}">
                         <span>Пред</span>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/employee/train/prev">Пред</a>
+                        <a href="../prev">Пред</a>
                     </c:otherwise>
 
                 </c:choose>
 
-                <c:forEach begin="1" end="${trains.pageCount}" step="1" varStatus="tagStatus">
+                <c:forEach begin="1" end="${passengers.pageCount}" step="1" varStatus="tagStatus">
                     <c:choose>
-                        <c:when test="${(trains.page + 1) == tagStatus.index}">
+                        <c:when test="${(passengers.page + 1) == tagStatus.index}">
                             <span>${tagStatus.index}</span>
                         </c:when>
 
                         <c:otherwise>
-                            <a href="${pageContext.request.contextPath}/employee/train/${tagStatus.index}">${tagStatus.index}</a>
+                            <a href="../${tagStatus.index}">${tagStatus.index}</a>
                         </c:otherwise>
 
                     </c:choose>
@@ -76,17 +66,21 @@
 
                 <c:choose>
 
-                    <c:when test="${trains.lastPage}">
+                    <c:when test="${passengers.lastPage}">
                         <span>След</span>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/employee/train/next">След</a>
+                        <a href="../next">След</a>
                     </c:otherwise>
                 </c:choose>
             </td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
         </tr>
+
+
         </tbody>
     </table>
 </div>

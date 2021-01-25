@@ -11,8 +11,8 @@ import ru.lebedev.SBBProject.model.*;
 import ru.lebedev.SBBProject.utility.CustomConverter;
 
 import javax.persistence.Tuple;
+import java.security.Principal;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -43,7 +43,7 @@ public class TicketServiceImpl implements TicketService {
         String toStation = searchTicketAttributes.getToStation();
         List<TicketDTO> tickets = new ArrayList<>();
 
-        if(fromStation.equals(toStation) || fromTime == null || toTime == null) {
+        if (fromStation.equals(toStation) || fromTime == null || toTime == null) {
             return tickets;
         }
 
@@ -53,13 +53,12 @@ public class TicketServiceImpl implements TicketService {
         List<Tuple> ticketsTuple = timetableDAO.getAvailableTicket(suitableRoutes, fromTime, toTime, fromStation, toStation);
 
 
-
-        for(int i = 0; i < ticketsTuple.size(); i = i + 2) {
+        for (int i = 0; i < ticketsTuple.size(); i = i + 2) {
             Tuple fromStationTimetable = ticketsTuple.get(i);
             Tuple toStationTimetable = ticketsTuple.get(i + 1);
 
             LocalDateTime departureTime = fromStationTimetable.get("time", Timestamp.class).toLocalDateTime();
-            LocalDateTime arrivalTime = toStationTimetable.get("time" , Timestamp.class).toLocalDateTime();
+            LocalDateTime arrivalTime = toStationTimetable.get("time", Timestamp.class).toLocalDateTime();
             Integer trainId = fromStationTimetable.get("trainNumber", Integer.class);
             String routeNumber = fromStationTimetable.get("routeNumber", String.class);
 
@@ -75,24 +74,15 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Transactional
-    public void buyTicket(String username, TicketDTO ticketDTO, PassengerDTO passengerDTO) {
+    public void buyTicket(String username, PassengerDTO passengerDTO) {
         User user = userDAO.getUserByUsername(username).get();
-        Ticket ticket = convertToTicket(ticketDTO);
-        Passenger passenger = convertToPassenger(passengerDTO);
+        Ticket ticket = convertToTicket(passengerDTO.getTicketDTO());
+        Passenger passenger = PassengerDTO.convertToPassenger(passengerDTO);
         Train train = ticket.getTrain();
         passenger.setUser(user);
 
-        Optional<Passenger> dbPassenger = passengerDAO.getPassengerIfExists(passenger);
-
-        if(!dbPassenger.isPresent()) {
-            passengerDAO.save(passenger);
-            ticket.setPassenger(passenger);
-        } else {
-            ticket.setPassenger(dbPassenger.get());
-        }
-
+        ticket.setPassenger(passenger);
         train.setAvailableSeats(train.getAvailableSeats() - 1);
-
         ticketDAO.save(ticket);
     }
 
@@ -109,17 +99,13 @@ public class TicketServiceImpl implements TicketService {
         return ticket;
     }
 
-    private Passenger convertToPassenger(PassengerDTO passengerDTO) {
-        String name = passengerDTO.getName();
-        String lastName = passengerDTO.getLastName();
-        String middleName = passengerDTO.getMiddleName();
-        String email = passengerDTO.getEmail();
-        LocalDate birth = CustomConverter.convertStringToDate(passengerDTO.getBirthday());
-        String passport = passengerDTO.getPassportNumber();
+    @Override
+    public List<Ticket> getUserTickets(Principal principal) {
+        String username = principal.getName();
+        List<String> passengers = passengerDAO.getPassengerId(username);
+        List<Ticket> tickets = ticketDAO.getUsersTicket(passengers);
 
-        Passenger passenger = Passenger.createPassenger(name, lastName, middleName, birth, email, passport);
-
-        return passenger;
+        return tickets;
     }
 }
 

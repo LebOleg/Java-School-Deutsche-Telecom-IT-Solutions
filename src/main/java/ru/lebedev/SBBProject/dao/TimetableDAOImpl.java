@@ -1,9 +1,6 @@
 package ru.lebedev.SBBProject.dao;
 
 import org.springframework.stereotype.Repository;
-import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
-import ru.lebedev.SBBProject.dto.StationTimetableDTO;
-import ru.lebedev.SBBProject.model.Ticket;
 import ru.lebedev.SBBProject.model.Timetable;
 
 import javax.persistence.*;
@@ -28,8 +25,7 @@ public class TimetableDAOImpl implements TimetableDAO {
         query.setParameter("startDay", startDay);
         query.setParameter("endDay", endDay);
 
-
-        List<Tuple> timetableForStation =  query.getResultList();
+        List<Tuple> timetableForStation = query.getResultList();
 
         return timetableForStation;
 

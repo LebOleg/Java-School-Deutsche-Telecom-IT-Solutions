@@ -31,20 +31,21 @@ public class RouteManagementServiceImpl implements RouteManagementService {
     public Boolean createPathInRoute(String path) {
 
         String[] pathAttributes = path.split("&");
+
         String routeNumber = pathAttributes[0].substring(pathAttributes[0].indexOf("=") + 1);
         String fromStation = pathAttributes[1].substring(pathAttributes[1].indexOf("=") + 1);
         String toStation = pathAttributes[2].substring(pathAttributes[2].indexOf("=") + 1);
         String travelTime = pathAttributes[3].substring(pathAttributes[3].indexOf("=") + 1).replace("%3A", ":");
 
         Optional<Railway> railway = railwayDAO.getRailway(fromStation, toStation);
-        if(!railway.isPresent()) {
+        if (!railway.isPresent()) {
             return false;
         }
 
         Optional<RouteNumber> routeNumberFromDB = routeNumberDAO.getRouteNumber(routeNumber);
 
         if (routeNumberFromDB.isPresent()) {
-                return savePath(routeNumberFromDB.get(), toStation, travelTime);
+            return savePath(routeNumberFromDB.get(), toStation, travelTime);
 
         } else {
             saveFirstPath(routeNumber, fromStation, toStation, travelTime);
@@ -70,7 +71,7 @@ public class RouteManagementServiceImpl implements RouteManagementService {
 
         Optional<Route> route = routeDAO.getRoute(routeNumber.getNumber(), toStation);
 
-        if(route.isPresent()) {
+        if (route.isPresent()) {
             return false;
         }
         Optional<RouteNumber> routeNumberFromDB = routeNumberDAO.getRouteNumber(routeNumber.getNumber());
@@ -84,5 +85,10 @@ public class RouteManagementServiceImpl implements RouteManagementService {
     @Override
     public List<RouteNumber> getAllRouteNumbers() {
         return routeNumberDAO.getAllRouteNumber();
+    }
+
+    @Override
+    public List<Route> getRouteByNumber(String number) {
+        return routeDAO.getRouteByNumber(number);
     }
 }

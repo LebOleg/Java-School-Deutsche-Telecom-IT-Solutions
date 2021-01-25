@@ -23,14 +23,9 @@ public class TrainDAOImpl implements TrainDAO {
 
     @Override
     public Train getTrainById(Integer number) {
-
-
-
-            return entityManager.createQuery("select t from Train t where t.id=:number", Train.class)
-                            .setParameter("number", number)
-                            .getSingleResult();
-
-
+        return entityManager.createQuery("select t from Train t where t.id=:number", Train.class)
+                .setParameter("number", number)
+                .getSingleResult();
     }
 
     @Override
@@ -40,19 +35,18 @@ public class TrainDAOImpl implements TrainDAO {
 
     @Override
     public void saveTrain(Train train) {
-
         entityManager.persist(train);
     }
 
     @Override
     public List<Train> getAvailableTrains() {
-
         return entityManager.createQuery("select t from Train t where t.routeNumber.number=null", Train.class)
                 .getResultList();
     }
 
     @Override
     public List<Tuple> getAllTrains() {
-        return entityManager.createNativeQuery("select id, seats_available as availableSeats, route_number as routeNumber from train", Tuple.class).getResultList();
+        return entityManager.createNativeQuery("select id, seats_available as availableSeats, route_number as routeNumber from train", Tuple.class)
+                .getResultList();
     }
 }

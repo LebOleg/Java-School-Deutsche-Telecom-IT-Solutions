@@ -18,6 +18,7 @@ public class StationDAOImpl implements StationDAO {
         String strQuery = "select a.name from station as a where (a.name regexp" + "'^" + partName + ".*')";
         Query query = entityManager.createNativeQuery(strQuery);
         String station = (String) query.getSingleResult();
+
         return station;
     }
 

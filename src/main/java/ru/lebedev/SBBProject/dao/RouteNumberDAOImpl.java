@@ -10,15 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class RouteNumberDAOImpl implements RouteNumberDAO{
+public class RouteNumberDAOImpl implements RouteNumberDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Override
     public Optional<RouteNumber> getRouteNumber(String number) {
-        try{
+        try {
             return Optional.of(
                     entityManager.createQuery("select rn from RouteNumber rn where rn.number=:number", RouteNumber.class)
                             .setParameter("number", number)

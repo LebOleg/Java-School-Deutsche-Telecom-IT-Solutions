@@ -12,4 +12,6 @@ public interface RouteDAO {
     Optional<Route> getRoute(String routeNumber, String toStation);
 
     List<String> getSuitableRoutes(String fromStation, String toStation);
+
+    List<Route> getRouteByNumber(String number);
 }

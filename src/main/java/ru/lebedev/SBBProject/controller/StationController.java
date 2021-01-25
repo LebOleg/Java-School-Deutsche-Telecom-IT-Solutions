@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.lebedev.SBBProject.dto.SearchStationTimetableDTO;
 import ru.lebedev.SBBProject.dto.StationTimetableDTO;
-import ru.lebedev.SBBProject.model.Timetable;
 import ru.lebedev.SBBProject.service.StationService;
 
 import java.util.List;

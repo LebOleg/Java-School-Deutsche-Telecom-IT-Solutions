@@ -43,7 +43,7 @@ public class Ticket {
     private Passenger passenger;
 
     public static Ticket createTicket(Station sourceStation, Station destinationStation, LocalDateTime departureTime,
-                                   LocalDateTime arrivalTime, Train train) {
+                                      LocalDateTime arrivalTime, Train train) {
 
         Ticket ticket = new Ticket();
 

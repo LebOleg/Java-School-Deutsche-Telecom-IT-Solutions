@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class RouteDAOImpl implements RouteDAO{
+public class RouteDAOImpl implements RouteDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -31,8 +31,6 @@ public class RouteDAOImpl implements RouteDAO{
         query.setParameter("toStation", toStation);
 
         return query.getResultList();
-
-
     }
 
     @Override
@@ -48,8 +46,12 @@ public class RouteDAOImpl implements RouteDAO{
             return Optional.empty();
         }
 
+    }
 
-
-
+    @Override
+    public List<Route> getRouteByNumber(String number) {
+        return entityManager.createQuery("select r from Route r where r.routeNumber.number=:number", Route.class)
+                .setParameter("number", number)
+                .getResultList();
     }
 }

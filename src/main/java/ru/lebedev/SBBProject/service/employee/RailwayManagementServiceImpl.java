@@ -30,9 +30,9 @@ public class RailwayManagementServiceImpl implements RailwayManagementService {
         JSONArray jsonArrayStation = new JSONArray();
         Random random = new Random(0);
 
-        for(Station s: stations) {
+        for (Station s : stations) {
             JSONObject jsonStations = new JSONObject();
-            jsonStations.put("id",s.getName());
+            jsonStations.put("id", s.getName());
             jsonStations.put("label", s.getName());
             jsonStations.put("x", random.nextFloat());
             jsonStations.put("y", random.nextFloat());
@@ -44,13 +44,13 @@ public class RailwayManagementServiceImpl implements RailwayManagementService {
 
         JSONArray jsonArrayEdges = new JSONArray();
 
-        for (Railway r: railways) {
+        for (Railway r : railways) {
 
-           JSONObject jsonEdge = new JSONObject();
-           jsonEdge.put("id", r.getId());
-           jsonEdge.put("source", r.getFromStation().getName());
-           jsonEdge.put("target", r.getToStation().getName());
-           jsonArrayEdges.put(jsonEdge);
+            JSONObject jsonEdge = new JSONObject();
+            jsonEdge.put("id", r.getId());
+            jsonEdge.put("source", r.getFromStation().getName());
+            jsonEdge.put("target", r.getToStation().getName());
+            jsonArrayEdges.put(jsonEdge);
         }
 
         jsonObject.put("edges", jsonArrayEdges);

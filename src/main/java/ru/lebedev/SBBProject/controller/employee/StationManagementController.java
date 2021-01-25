@@ -30,12 +30,14 @@ public class StationManagementController {
     }
 
     @PostMapping("/createStation")
-    public @ResponseBody String createStation(@RequestBody String station) {
+    public @ResponseBody
+    String createStation(@RequestBody String station) {
         return stationService.createStation(station).toString();
     }
 
     @PostMapping("/createConnection")
-    public @ResponseBody String createConnection(@RequestBody String stations) {
+    public @ResponseBody
+    String createConnection(@RequestBody String stations) {
         return stationService.createConnection(stations).toString();
     }
 }

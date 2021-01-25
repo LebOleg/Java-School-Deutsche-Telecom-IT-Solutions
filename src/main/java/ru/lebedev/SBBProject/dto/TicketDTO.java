@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,4 +34,5 @@ public class TicketDTO {
     private int availableSeats;
     private LocalDateTime departureDateTime;
     private LocalDateTime arrivalDateTime;
+
 }

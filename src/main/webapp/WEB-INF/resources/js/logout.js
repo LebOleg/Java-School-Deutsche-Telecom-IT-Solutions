@@ -1,5 +1,5 @@
 function logout() {
-  let form = $('form');
+  let form = $('#exit').children();
   form.submit();
 }
 

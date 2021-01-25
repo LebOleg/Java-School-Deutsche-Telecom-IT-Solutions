@@ -1,12 +1,12 @@
 package ru.lebedev.SBBProject.dao;
 
 import ru.lebedev.SBBProject.model.Ticket;
-import ru.lebedev.SBBProject.model.Timetable;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.List;
 
 public interface TicketDAO {
 
     void save(Ticket ticket);
+
+    List<Ticket> getUsersTicket(List<String> passengers);
 }

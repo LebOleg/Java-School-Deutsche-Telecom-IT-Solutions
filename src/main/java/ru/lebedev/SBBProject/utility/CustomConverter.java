@@ -1,8 +1,5 @@
 package ru.lebedev.SBBProject.utility;
 
-import ru.lebedev.SBBProject.dto.TicketDTO;
-import ru.lebedev.SBBProject.model.Ticket;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,7 +9,7 @@ public class CustomConverter {
 
     public static LocalDateTime convertStringToTimeAndDate(String time, String date) {
 
-        if(time.equals("") || date.equals("")) {
+        if (time.equals("") || date.equals("")) {
             return null;
         }
 

@@ -2,7 +2,6 @@ package ru.lebedev.SBBProject.service;
 
 import ru.lebedev.SBBProject.dto.SearchStationTimetableDTO;
 import ru.lebedev.SBBProject.dto.StationTimetableDTO;
-import ru.lebedev.SBBProject.model.Timetable;
 
 import java.util.List;
 

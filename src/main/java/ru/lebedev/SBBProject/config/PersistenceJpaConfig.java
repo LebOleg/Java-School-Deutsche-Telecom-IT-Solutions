@@ -39,16 +39,14 @@ public class PersistenceJpaConfig {
 
     @Bean
     public PlatformTransactionManager transactionManager() {
-        JpaTransactionManager transactionManager
-                = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(
-                entityManagerFactoryBean().getObject());
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+
         return transactionManager;
     }
 
     @Bean
     public DataSource dataSource() {
-
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
         try {
