@@ -2,8 +2,8 @@ package ru.lebedev.SBBProject.service.employee;
 
 public interface StationManagementService {
 
-    Boolean createStation(String stationName);
+    String createStation(String stationName);
 
-    Boolean createConnection(String stations);
+    String createConnection(String stations);
 
 }

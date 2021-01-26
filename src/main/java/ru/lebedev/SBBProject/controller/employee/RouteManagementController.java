@@ -3,12 +3,16 @@ package ru.lebedev.SBBProject.controller.employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.lebedev.SBBProject.model.Route;
 import ru.lebedev.SBBProject.model.RouteNumber;
 import ru.lebedev.SBBProject.service.employee.RouteManagementService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -18,9 +22,12 @@ public class RouteManagementController {
     private RouteManagementService routeService;
 
     @PostMapping("/showCreateRoute")
-    public String showCreateRouteForm(@ModelAttribute Route route, Model model) {
-        model.addAttribute(route);
+    public String showCreateRouteForm(@ModelAttribute("route") @Valid RouteNumber route, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            return "create-route-number";
+        }
 
+        model.addAttribute(route);
         return "create-route";
 
     }
@@ -28,12 +35,13 @@ public class RouteManagementController {
     @PostMapping("/addPath")
     public @ResponseBody
     String addPathToRoute(@RequestBody String path) {
-        return routeService.createPathInRoute(path).toString();
+        String result = routeService.createPathInRoute(path);
+        return URLEncoder.encode(result, StandardCharsets.UTF_8);
     }
 
     @GetMapping("/getRouteNumberForm")
     public String getRouteNumberForm(Model model) {
-        model.addAttribute("route", new Route());
+        model.addAttribute("route", new RouteNumber());
         return "create-route-number";
     }
 

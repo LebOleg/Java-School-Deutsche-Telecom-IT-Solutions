@@ -16,4 +16,6 @@ public interface TicketService {
     void buyTicket(String username, PassengerDTO passengerDTO);
 
     List<Ticket> getUserTickets(Principal principal);
+
+    boolean isAvailableForPurchase(TicketDTO ticket);
 }

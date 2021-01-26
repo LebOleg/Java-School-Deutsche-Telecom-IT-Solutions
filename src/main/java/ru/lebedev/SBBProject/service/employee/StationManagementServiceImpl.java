@@ -21,29 +21,31 @@ public class StationManagementServiceImpl implements StationManagementService {
 
     @Transactional
     @Override
-    public Boolean createStation(String stationName) {
+    public String createStation(String stationName) {
         String decodeStation = URLDecoder.decode(stationName, StandardCharsets.UTF_8);
+
         if (decodeStation.contains("=")) {
             decodeStation = decodeStation.substring(decodeStation.indexOf("=") + 1);
         }
 
         decodeStation = decodeStation.trim();
         if (decodeStation.equals("") || decodeStation == null) {
-            return false;
+            return "Поле должно быть непустым";
         }
 
         Optional<Station> station = stationDAO.getStationByName(decodeStation);
         if (!station.isPresent()) {
             stationDAO.save(new Station(decodeStation));
-            return true;
+            return "Станция создана";
         } else {
-            return false;
+            return "Cтанция уже существует";
         }
     }
 
     @Transactional
     @Override
-    public Boolean createConnection(String stations) {
+    public String createConnection(String stations) {
+        stations = URLDecoder.decode(stations, StandardCharsets.UTF_8);
         String[] station = stations.split("&");
         String fromStation = station[0].substring(station[0].indexOf("=") + 1);
         String toStation = station[1].substring(station[1].indexOf("=") + 1);
@@ -52,18 +54,18 @@ public class StationManagementServiceImpl implements StationManagementService {
         Optional<Station> toStationDb = stationDAO.getStationByName(toStation);
 
         if (!fromStationDb.isPresent()) {
-            return false;
+            return "Cтанции " + fromStation + " не сущетсвует";
         }
         if (!toStationDb.isPresent()) {
-            return false;
+            return "Cтанции " + toStation + " не сущетсвует";
         }
 
         Optional<Railway> railway = railwayDAO.getRailway(fromStation, toStation);
         if (!railway.isPresent()) {
             railwayDAO.save(new Railway(fromStationDb.get(), toStationDb.get()));
-            return true;
+            return "Связь создана";
         } else {
-            return false;
+            return "Связь уже существует";
         }
 
     }

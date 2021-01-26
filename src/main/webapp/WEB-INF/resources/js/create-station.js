@@ -12,14 +12,9 @@ $(document).ready(function () {
             method: 'POST',
             data: {query :station},
             success: function (response) {
-                if (response == 'true') {
+                    response = decodeURI(response).replace( /\+/g, ' ' );
                     $('#stationName').val("");
-                    $('#successText').text('Станция добавлена');
-                } else {
-                    $('#stationName').val("");
-                    $('#successText').text('Станция не добавлена');
-                }
-
+                    $('#successText').text(response);
             }
 
         })

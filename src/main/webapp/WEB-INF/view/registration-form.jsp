@@ -47,6 +47,7 @@
                     </div>
                     <form:input path="username" placeholder="Имя пользователя*" class="form-control"/>
                 </div>
+
                 <div class="mb-1">
                     <form:errors path="username" cssClass="error"/>
                 </div>

@@ -18,9 +18,9 @@
 <div class="col-4 mr-5 offset-4 mt-5">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title text-center">Создать ${route.routeNumber.number} маршрут</h5>
+            <h5 class="card-title text-center">Создать ${route.number} маршрут</h5>
             <p class="card-text">
-                <input id="routeNumber" type="hidden" value="${route.routeNumber.number}"/>
+                <input id="routeNumber" type="hidden" value="${route.number}"/>
                 <input id="routeFromStation" class="form-control mb-2" placeholder="От" type="text">
                 <input id="routeToStation" class="form-control mb-2" placeholder="До" type="text">
                 <input id="travelTime" class="form-control mb-2" placeholder="Время в пути 00:00" type="text">

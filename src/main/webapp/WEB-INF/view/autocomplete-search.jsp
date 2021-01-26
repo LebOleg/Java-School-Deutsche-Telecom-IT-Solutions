@@ -10,30 +10,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/autocomplete.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/error.css"/>
     <sec:csrfMetaTags/>
 </head>
 <body>
 <%@ include file="nav.jsp" %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-3 p-2 mt-4 rounded">
-            <form:form action="${pageContext.request.contextPath}/showTimetable" method="POST"
-                       modelAttribute="searchStation" class="form-inline p-3">
-                <form:input path="stationName" type="text" name="stationName" placeholder="Станция" id="search"
-                            class="form-control rounded-0 "/>
-                <form:input path="date" type="date" name="stationName" class="form-control rounded-0"/>
-                <input type="submit" name="submit" value="Поиск" class="btn btn-info rounded-0" style="width: 20%;"
-            </form:form>
-        </div>
+<div class="card col-6 offset-3 mt-5 mb-5 rounded">
 
-        <div class="col-md-3" style=" width: 22.5%; position: relative; top: -40px; left: 278px;">
-            <div class="list-group">
-                <a id="show-list" href="#" class="list-group-item list-group-item-action border-1"
-                   style="display: none"> List 1</a>
+            <div class="card-body">
+                <div class="card-title text-center mb-4"></div>
+            <form:form action="${pageContext.request.contextPath}/showTimetable" method="POST"
+                       modelAttribute="searchStation" class="form-inline">
+                <div class="row">
+                    <div class="col">
+                        <form:input path="stationName" type="text" name="stationName" placeholder="Станция" id="search"
+                                    class="form-control rounded-0 "/>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="list-group">
+                                    <a id="show-list" href="#" class="list-group-item list-group-item-action border-1"
+                                       style="display: none"> List 1</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col">
+                        <form:input path="date" type="date" name="stationName" class="form-control rounded-0"/>
+                    </div>
+                    <div class="col">
+                        <input type="submit" name="submit" value="Поиск" class="btn btn-info rounded-0">
+                    </div>
+                </div>
+                    <div class="card-body text-center">
+
+                    <form:errors path="stationName"  cssClass="error"/>
+                        <br/>
+                    <form:errors path="date" cssClass="error"/>
+                    </div>
             </div>
+                    </div>
+
+
+                    </form:form>
         </div>
     </div>
+
+
 </div>
 
 <c:if test="${timetable != null}">
@@ -41,7 +66,7 @@
 <c:when test="${not empty timetable}">
 <div id="timetable" class="container p-4">
 
-    <div class="col-md-6 offset-md-3">
+    <div class="col-7 offset-3">
         <ul class="list-group col-11">
 
             <div class="row">

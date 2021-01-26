@@ -8,6 +8,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/error.css"/>
+
 </head>
 
 <body>
@@ -21,9 +23,10 @@
                 <form:form action="${pageContext.request.contextPath}/employee/route/showCreateRoute"
                            modelAttribute="route" method="post">
                 <form:input id="routeInput" type="text" placeholder="Название маршрута" class="form-control"
-                            path="routeNumber.number"/>
+                            path="number"/>
             </p>
             <input type="submit" value="Создать" class="btn btn-info rounded-0 ml-2">
+            <form:errors path="number" cssClass="error"/>
             <span class="font-weight-light text-info"><small id="successTextRoute"></small></span>
             </form:form>
         </div>

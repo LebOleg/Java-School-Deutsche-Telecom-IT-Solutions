@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.lebedev.SBBProject.service.employee.RailwayManagementService;
 import ru.lebedev.SBBProject.service.employee.StationManagementService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @Controller
 @RequestMapping("/employee/station")
 public class StationManagementController {
@@ -32,12 +37,15 @@ public class StationManagementController {
     @PostMapping("/createStation")
     public @ResponseBody
     String createStation(@RequestBody String station) {
-        return stationService.createStation(station).toString();
+        String result = stationService.createStation(station);
+        return URLEncoder.encode(result, StandardCharsets.UTF_8);
     }
 
     @PostMapping("/createConnection")
     public @ResponseBody
     String createConnection(@RequestBody String stations) {
-        return stationService.createConnection(stations).toString();
+        String result = stationService.createConnection(stations);
+
+        return URLEncoder.encode(result, StandardCharsets.UTF_8);
     }
 }

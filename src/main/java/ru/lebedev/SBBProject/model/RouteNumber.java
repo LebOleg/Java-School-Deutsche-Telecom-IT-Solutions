@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,7 @@ public class RouteNumber {
 
     @Id
     @Column(name = "number", columnDefinition = "VARCHAR(64)")
+    @NotEmpty(message = "Поле не должно быть пустым")
     private String number;
 
     @OneToMany(mappedBy = "routeNumber")

@@ -15,19 +15,13 @@ $(document).ready(function () {
             url: myContextPath + "/employee/train/createTrain",
             method: 'POST',
             data: {seats : seats, route : route, date: date, time: time},
-            dataType: 'json',
             success: function (response) {
+                response = decodeURI(response).replace( /\+/g, ' ' );
                 $('#availableSeats').val("");
                 $('#routeNumber').val("");
                 $('#timetableDate').val("");
                 $('#timetableTime').val("");
-
-                if (response == true) {
-                    $('#successTextConnection').text('Поезд добавлен');
-                } else {
-
-                    $('#successTextConnection').text('Поезд не добавлен');
-                }
+                $('#successTextConnection').text(response);
 
             },
             error: function(xhr, status, error) {

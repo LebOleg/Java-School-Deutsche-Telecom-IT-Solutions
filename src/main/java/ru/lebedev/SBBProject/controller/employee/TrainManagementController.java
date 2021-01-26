@@ -11,6 +11,8 @@ import ru.lebedev.SBBProject.service.employee.RouteManagementService;
 import ru.lebedev.SBBProject.service.employee.TrainManagementService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -33,7 +35,9 @@ public class TrainManagementController {
     @PostMapping("/createTrain")
     public @ResponseBody
     String createTrains(@RequestBody String trainInfo) {
-        return trainService.createTrain(trainInfo).toString();
+        String result = trainService.createTrain(trainInfo);
+
+        return URLEncoder.encode(result, StandardCharsets.UTF_8);
     }
 
     @GetMapping(value = {"", "/{page}"})

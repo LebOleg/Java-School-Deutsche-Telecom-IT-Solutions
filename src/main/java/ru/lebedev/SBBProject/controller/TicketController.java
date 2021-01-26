@@ -49,7 +49,14 @@ public class TicketController {
 
     @PostMapping("/processPassengerForm")
     public String processPassengerForm(Principal principal, @ModelAttribute("passenger") PassengerDTO passenger, Model model) {
+
+        if (!ticketService.isAvailableForPurchase(passenger.getTicketDTO())) {
+            model.addAttribute("error", "Билет не куплен. До отправления менее 10 минут");
+            return "ticket-error";
+        }
+
         Boolean passengerOnTrain = passengerService.passengerOnTrainExists(PassengerDTO.convertToPassenger(passenger));
+
         if (passengerOnTrain) {
             model.addAttribute("error", "Такой пассажир уже зарегистрирован на данном поезде");
             return "ticket-error";

@@ -16,22 +16,12 @@ $(document).ready(function () {
             data: {routeName: routeName, routFromStation : routFromStation, routToStation:routToStation, travelTime:travelTime
             },
             success: function (response) {
+                response = decodeURI(response).replace( /\+/g, ' ' );
                 $('#routeFromStation').val("");
                 $('#routeToStation').val("");
                 $('#travelTime').val("");
-
-                if (response == 'true') {
-                    $('#successTextRoute').text('Путь добавлен');
-                } else {
-
-                    $('#successTextRoute').text('Путь не добавлен');
-                }
-
+                $('#successTextRoute').text(response);
             },
-            error: function(xhr, status, error) {
-                alert(xhr.responseText);
-            }
-
         })
     })
 })

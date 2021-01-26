@@ -14,6 +14,7 @@ import javax.persistence.Tuple;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -106,6 +107,14 @@ public class TicketServiceImpl implements TicketService {
         List<Ticket> tickets = ticketDAO.getUsersTicket(passengers);
 
         return tickets;
+    }
+
+    @Override
+    public boolean isAvailableForPurchase(TicketDTO ticket) {
+        LocalDateTime buyDate = LocalDateTime.now();
+        LocalDateTime departureTime = CustomConverter.convertStringToTimeAndDate(ticket.getDepartureTime(), ticket.getDateTicket());
+
+        return buyDate.plus(10, ChronoUnit.MINUTES).isBefore(departureTime);
     }
 }
 

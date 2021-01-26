@@ -16,9 +16,9 @@
     <table class="table">
         <thead style="background-color: black">
         <tr style="color: white">
-            <th scope="col">№</th>
             <th scope="col">Свободные места</th>
             <th scope="col">Маршрут</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody style="background-color: white">

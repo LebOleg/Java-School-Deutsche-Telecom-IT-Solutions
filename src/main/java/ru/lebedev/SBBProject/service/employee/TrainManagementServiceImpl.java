@@ -14,6 +14,7 @@ import ru.lebedev.SBBProject.utility.CustomConverter;
 
 import javax.persistence.Tuple;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,28 +30,38 @@ public class TrainManagementServiceImpl implements TrainManagementService {
 
     @Transactional
     @Override
-    public Boolean createTrain(String trainInfo) {
+    public String createTrain(String trainInfo) {
         String[] trains = trainInfo.split("&");
-        String seatsQuantity = trains[0].substring(trains[0].indexOf("=") + 1);
-        String route = trains[1].substring(trains[1].indexOf("=") + 1);
-        String date = trains[2].substring(trains[2].indexOf("=") + 1);
-        String time = trains[3].substring(trains[3].indexOf("=") + 1).replace("%3A", ":");
+        String seatsQuantity = trains[0].substring(trains[0].indexOf("=") + 1).trim();
+        String route = trains[1].substring(trains[1].indexOf("=") + 1).trim();
+        String date = trains[2].substring(trains[2].indexOf("=") + 1).trim();
+        String time = trains[3].substring(trains[3].indexOf("=") + 1).replace("%3A", ":").trim();
 
-        LocalDateTime timetableDateAndTime = CustomConverter.convertStringToTimeAndDate(time, date);
-
-        RouteNumber routeNumberFromDb = routeNumberDAO.getRouteNumber(route).get();
+        if (isFieldsEmpty(seatsQuantity, route, date, time)) {
+            return "Поля должны быть непустыми";
+        }
 
         int seats = 0;
-
         if (isNumber(seatsQuantity)) {
             seats = Integer.parseInt(seatsQuantity);
-        } else return false;
+        } else return "Количество мест должно быть числом";
 
+        if (seats == 0) {
+            return "Количество мест должно быть больше 0";
+        }
+
+        LocalDateTime timetableDateAndTime = CustomConverter.convertStringToTimeAndDate(time, date);
+        LocalDateTime today = LocalDateTime.now();
+        if(timetableDateAndTime.isBefore(today.plus(1, ChronoUnit.DAYS))) {
+            return "Неверная дата";
+        }
+
+        RouteNumber routeNumberFromDb = routeNumberDAO.getRouteNumber(route).get();
         Train train = new Train(seats, routeNumberFromDb);
         Timetable timetable = new Timetable(train, routeNumberFromDb, timetableDateAndTime);
         timetableDAO.saveInTimetable(timetable);
 
-        return true;
+        return "Поезд создан";
     }
 
     private boolean isNumber(String supposedNumber) {
@@ -75,5 +86,14 @@ public class TrainManagementServiceImpl implements TrainManagementService {
         }
 
         return trains;
+    }
+
+    private boolean isFieldsEmpty(String...strings) {
+        for(String s: strings) {
+            if(s.equals("")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

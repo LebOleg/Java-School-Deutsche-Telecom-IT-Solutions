@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TrainManagementService {
 
-    Boolean createTrain(String trainInfo);
+    String createTrain(String trainInfo);
 
     List<TrainDTO> getAllTrains();
 }

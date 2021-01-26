@@ -28,7 +28,7 @@ public class RouteManagementServiceImpl implements RouteManagementService {
 
     @Transactional
     @Override
-    public Boolean createPathInRoute(String path) {
+    public String createPathInRoute(String path) {
 
         String[] pathAttributes = path.split("&");
 
@@ -37,9 +37,17 @@ public class RouteManagementServiceImpl implements RouteManagementService {
         String toStation = pathAttributes[2].substring(pathAttributes[2].indexOf("=") + 1);
         String travelTime = pathAttributes[3].substring(pathAttributes[3].indexOf("=") + 1).replace("%3A", ":");
 
+        if(isFieldsEmpty(routeNumber, fromStation, toStation, travelTime)) {
+            return "Поля не дожны быть пустыми";
+        }
+
+        if(!travelTime.matches("[0-9]{2}:[0-9]{2}")) {
+            return "Неверный формат времени";
+        }
+
         Optional<Railway> railway = railwayDAO.getRailway(fromStation, toStation);
         if (!railway.isPresent()) {
-            return false;
+            return "Связи между станциями не существует";
         }
 
         Optional<RouteNumber> routeNumberFromDB = routeNumberDAO.getRouteNumber(routeNumber);
@@ -49,7 +57,7 @@ public class RouteManagementServiceImpl implements RouteManagementService {
 
         } else {
             saveFirstPath(routeNumber, fromStation, toStation, travelTime);
-            return true;
+            return "Путь добавлен";
         }
 
     }
@@ -67,19 +75,19 @@ public class RouteManagementServiceImpl implements RouteManagementService {
         routeDAO.save(secondStationRoute);
     }
 
-    private boolean savePath(RouteNumber routeNumber, String toStation, String travelTime) {
+    private String savePath(RouteNumber routeNumber, String toStation, String travelTime) {
 
         Optional<Route> route = routeDAO.getRoute(routeNumber.getNumber(), toStation);
 
         if (route.isPresent()) {
-            return false;
+            return "Путь уже добавлен";
         }
         Optional<RouteNumber> routeNumberFromDB = routeNumberDAO.getRouteNumber(routeNumber.getNumber());
 
         Station station = stationDAO.getStationByName(toStation).get();
         Route routeToSave = new Route(routeNumberFromDB.get(), station, travelTime);
         routeDAO.save(routeToSave);
-        return true;
+        return "Путь добавлен";
     }
 
     @Override
@@ -90,5 +98,14 @@ public class RouteManagementServiceImpl implements RouteManagementService {
     @Override
     public List<Route> getRouteByNumber(String number) {
         return routeDAO.getRouteByNumber(number);
+    }
+
+    private boolean isFieldsEmpty(String...strings) {
+        for (String s : strings) {
+            if (s.equals("")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

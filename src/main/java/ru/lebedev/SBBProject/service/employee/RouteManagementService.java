@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RouteManagementService {
 
-    Boolean createPathInRoute(String path);
+    String createPathInRoute(String path);
 
     List<RouteNumber> getAllRouteNumbers();
 

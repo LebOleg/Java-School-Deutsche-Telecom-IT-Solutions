@@ -13,15 +13,13 @@ $(document).ready(function () {
             method: 'POST',
             dataType: "text",
             data: {fromStation : fromStation, toStation: toStation},
+            contentType: "application/x-www-form-urlencoded;charset=utf-8",
             success: function (response) {
+                response = decodeURI(response).replace( /\+/g, ' ' );
                 $('#fromStation').val("");
                 $('#toStation').val("");
 
-                if(response == "true") {
-                $('#successTextConnection').text('Связь добавлена');
-            } else {
-                    $('#successTextConnection').text('Неверный формат данных или связь уже существует');
-                }
+                $('#successTextConnection').text(response);
             }
 
         })
