@@ -11,7 +11,6 @@ public class MainPageController {
     @GetMapping("/")
     public String getMainPage(Model model) {
         model.addAttribute("searchTicketAttr", new SearchTicketAttributes());
-
         return "index";
     }
 }

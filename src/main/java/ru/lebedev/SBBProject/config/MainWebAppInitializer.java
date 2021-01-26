@@ -18,8 +18,9 @@ public class MainWebAppInitializer implements WebApplicationInitializer {
         root.scan("ru.lebedev.SBBProject");
         servletContext.addListener(new ContextLoaderListener(root));
 
-        ServletRegistration.Dynamic appServlet = servletContext.addServlet("dispatcher",
-                new DispatcherServlet(new GenericWebApplicationContext()));
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(new GenericWebApplicationContext());
+        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+        ServletRegistration.Dynamic appServlet = servletContext.addServlet("dispatcher", dispatcherServlet);
         appServlet.setLoadOnStartup(1);
         appServlet.addMapping("/");
     }

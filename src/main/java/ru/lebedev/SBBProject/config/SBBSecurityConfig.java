@@ -23,7 +23,6 @@ public class SBBSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/searchStation").permitAll()
                 .antMatchers("**/resources/**").permitAll()
-                .antMatchers("/system/**").hasRole("ADMIN")
                 .antMatchers("/registration/**").not().authenticated()
                 .antMatchers("/ticket/processSearchTicket").permitAll()
                 .antMatchers("/ticket/**").hasRole("USER")
