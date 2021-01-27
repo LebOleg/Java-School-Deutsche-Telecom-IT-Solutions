@@ -47,8 +47,6 @@
                     </div>
                 </div>
                 <p></p>
-                <span class="badge badge-info badge-pill mt-3">Свободно ${ticketDTO.availableSeats} мест </span>
-
             </div>
         </div>
 

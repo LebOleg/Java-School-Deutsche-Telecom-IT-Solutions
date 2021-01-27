@@ -7,19 +7,17 @@ $(document).ready(function () {
         $(document).ajaxSend(function(e, xhr, options) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         });
-
+        let json = {'fromStation':fromStation, 'toStation':toStation};
         $.ajax({
             url: myContextPath + "/employee/station/createConnection",
-            method: 'POST',
-            dataType: "text",
-            data: {fromStation : fromStation, toStation: toStation},
-            contentType: "application/x-www-form-urlencoded;charset=utf-8",
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(json),
+            contentType: "application/json",
             success: function (response) {
-                response = decodeURI(response).replace( /\+/g, ' ' );
                 $('#fromStation').val("");
                 $('#toStation').val("");
-
-                $('#successTextConnection').text(response);
+                $('#successTextConnection').text(response.message);
             }
 
         })

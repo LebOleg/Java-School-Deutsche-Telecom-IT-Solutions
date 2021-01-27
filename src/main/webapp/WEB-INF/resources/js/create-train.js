@@ -10,18 +10,20 @@ $(document).ready(function () {
         $(document).ajaxSend(function(e, xhr, options) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         });
+        let json = {'seats': seats, 'route': route, 'date': date, 'time': time};
 
         $.ajax({
             url: myContextPath + "/employee/train/createTrain",
-            method: 'POST',
-            data: {seats : seats, route : route, date: date, time: time},
+            type: 'POST',
+            data: JSON.stringify(json),
+            contentType: 'application/json',
+            dataType: 'json',
             success: function (response) {
-                response = decodeURI(response).replace( /\+/g, ' ' );
                 $('#availableSeats').val("");
                 $('#routeNumber').val("");
                 $('#timetableDate').val("");
                 $('#timetableTime').val("");
-                $('#successTextConnection').text(response);
+                $('#successTextConnection').text(response.message);
 
             },
             error: function(xhr, status, error) {

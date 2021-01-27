@@ -44,7 +44,7 @@ public class TicketController {
     @PostMapping("/checkAvailableSeats")
     public @ResponseBody
     String checkAvailableSeats(@RequestBody String trainNumber) {
-        return trainService.getAvailableSeats(trainNumber).toString();
+        return trainService.getAvailableSeats(trainNumber);
     }
 
     @PostMapping("/processPassengerForm")

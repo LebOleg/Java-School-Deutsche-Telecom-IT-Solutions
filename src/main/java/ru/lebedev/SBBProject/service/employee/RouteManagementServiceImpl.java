@@ -1,5 +1,6 @@
 package ru.lebedev.SBBProject.service.employee;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,25 +30,28 @@ public class RouteManagementServiceImpl implements RouteManagementService {
     @Transactional
     @Override
     public String createPathInRoute(String path) {
+        JSONObject jsonPath = new JSONObject(path);
 
-        String[] pathAttributes = path.split("&");
-
-        String routeNumber = pathAttributes[0].substring(pathAttributes[0].indexOf("=") + 1);
-        String fromStation = pathAttributes[1].substring(pathAttributes[1].indexOf("=") + 1);
-        String toStation = pathAttributes[2].substring(pathAttributes[2].indexOf("=") + 1);
-        String travelTime = pathAttributes[3].substring(pathAttributes[3].indexOf("=") + 1).replace("%3A", ":");
+        String routeNumber = jsonPath.getString("routeName");
+        String fromStation = jsonPath.getString("routFromStation");
+        String toStation = jsonPath.getString("routToStation");
+        String travelTime = jsonPath.getString("travelTime");
+        JSONObject result = new JSONObject();
 
         if(isFieldsEmpty(routeNumber, fromStation, toStation, travelTime)) {
-            return "Поля не дожны быть пустыми";
+            result.put("message", "Поля не дожны быть пустыми");
+            return result.toString();
         }
 
         if(!travelTime.matches("[0-9]{2}:[0-9]{2}")) {
-            return "Неверный формат времени";
+            result.put("message", "Неверный формат времени");
+            return result.toString();
         }
 
         Optional<Railway> railway = railwayDAO.getRailway(fromStation, toStation);
         if (!railway.isPresent()) {
-            return "Связи между станциями не существует";
+            result.put("message", "Связи между станциями не существует");
+            return result.toString();
         }
 
         Optional<RouteNumber> routeNumberFromDB = routeNumberDAO.getRouteNumber(routeNumber);
@@ -57,7 +61,8 @@ public class RouteManagementServiceImpl implements RouteManagementService {
 
         } else {
             saveFirstPath(routeNumber, fromStation, toStation, travelTime);
-            return "Путь добавлен";
+            result.put("message", "Путь добавлен");
+            return result.toString();
         }
 
     }
@@ -78,16 +83,19 @@ public class RouteManagementServiceImpl implements RouteManagementService {
     private String savePath(RouteNumber routeNumber, String toStation, String travelTime) {
 
         Optional<Route> route = routeDAO.getRoute(routeNumber.getNumber(), toStation);
+        JSONObject result = new JSONObject();
 
         if (route.isPresent()) {
-            return "Путь уже добавлен";
+            result.put("message", "Путь уже добавлен");
+            return result.toString();
         }
         Optional<RouteNumber> routeNumberFromDB = routeNumberDAO.getRouteNumber(routeNumber.getNumber());
 
         Station station = stationDAO.getStationByName(toStation).get();
         Route routeToSave = new Route(routeNumberFromDB.get(), station, travelTime);
         routeDAO.save(routeToSave);
-        return "Путь добавлен";
+        result.put("message", "Путь добавлен");
+        return result.toString();
     }
 
     @Override

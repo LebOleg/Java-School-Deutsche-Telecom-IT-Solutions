@@ -37,15 +37,13 @@ public class StationManagementController {
     @PostMapping("/createStation")
     public @ResponseBody
     String createStation(@RequestBody String station) {
-        String result = stationService.createStation(station);
-        return URLEncoder.encode(result, StandardCharsets.UTF_8);
+
+        return stationService.createStation(station);
     }
 
     @PostMapping("/createConnection")
     public @ResponseBody
     String createConnection(@RequestBody String stations) {
-        String result = stationService.createConnection(stations);
-
-        return URLEncoder.encode(result, StandardCharsets.UTF_8);
+        return stationService.createConnection(stations);
     }
 }

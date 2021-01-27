@@ -10,16 +10,19 @@ $(document).ready(function () {
         $(document).ajaxSend(function(e, xhr, options) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         });
+        let json = {'train' : trainNumber};
 
         $.ajax({
             url: myContextPath + "/ticket/checkAvailableSeats",
-            method: 'POST',
-            data: {query : trainNumber},
+            type: 'post',
+            data: JSON.stringify(json),
+            contentType: 'application/json',
+            dataType: 'json',
             success: function (response) {
-                $(form).find('.seats').text('Свободно ' + response + ' мест');
-                $(form).find('.myInput').val(response);
-                if (response == 0) {
-                    alert("No seats");
+                $(form).find('.seats').text('Свободно ' + response.seats + ' мест');
+                $(form).find('.myInput').val(response.seats);
+                if (response.seats == 0) {
+                    $('#zeroTicket').text("Билетов нет");
                 } else {
                     form.submit();
                 }

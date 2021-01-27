@@ -11,8 +11,6 @@ import ru.lebedev.SBBProject.service.employee.RouteManagementService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -35,8 +33,7 @@ public class RouteManagementController {
     @PostMapping("/addPath")
     public @ResponseBody
     String addPathToRoute(@RequestBody String path) {
-        String result = routeService.createPathInRoute(path);
-        return URLEncoder.encode(result, StandardCharsets.UTF_8);
+        return routeService.createPathInRoute(path);
     }
 
     @GetMapping("/getRouteNumberForm")

@@ -1,5 +1,6 @@
 package ru.lebedev.SBBProject.service;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.lebedev.SBBProject.dao.TrainDAO;
@@ -10,11 +11,15 @@ public class TrainServiceImpl implements TrainService {
     private TrainDAO trainDAO;
 
     @Override
-    public Integer getAvailableSeats(String trainNumber) {
-        if (trainNumber.contains("=")) {
-            trainNumber = trainNumber.substring(trainNumber.indexOf("=") + 1);
-        }
-        return trainDAO.getCurrentAvailableSeats(Integer.parseInt(trainNumber));
+    public String getAvailableSeats(String trainNumber) {
+        JSONObject jsonTrain = new JSONObject(trainNumber);
+        trainNumber = jsonTrain.getString("train");
+
+        Integer seats = trainDAO.getCurrentAvailableSeats(Integer.parseInt(trainNumber));
+
+        JSONObject result = new JSONObject();
+        result.put("seats", seats);
+        return result.toString();
     }
 
 }

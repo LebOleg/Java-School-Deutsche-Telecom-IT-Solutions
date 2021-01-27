@@ -113,6 +113,10 @@
 
                     <input class="btn btn-info btn-sm rounded-0 myButton" type="button" name="buy" value="Купить"
                            style="width: 20%; float: right">
+                    <div>
+                    <span id="zeroTicket" class="font-weight-light text-info">
+                            </span>
+                    </div>
                 </div>
             </li>
             </form:form>

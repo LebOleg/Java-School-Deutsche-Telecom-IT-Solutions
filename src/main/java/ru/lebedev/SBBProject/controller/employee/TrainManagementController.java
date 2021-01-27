@@ -35,9 +35,7 @@ public class TrainManagementController {
     @PostMapping("/createTrain")
     public @ResponseBody
     String createTrains(@RequestBody String trainInfo) {
-        String result = trainService.createTrain(trainInfo);
-
-        return URLEncoder.encode(result, StandardCharsets.UTF_8);
+        return trainService.createTrain(trainInfo);
     }
 
     @GetMapping(value = {"", "/{page}"})

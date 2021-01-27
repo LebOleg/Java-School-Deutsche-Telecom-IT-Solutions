@@ -8,13 +8,16 @@ $(document).ready(function() {
             $(document).ajaxSend(function(e, xhr, options) {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             });
+            let json = {'partName' : searchText};
 
             $.ajax({
                 url: myContextPath + "/autofill",
-                method: 'POST',
-                data: {query: searchText},
+                type: 'post',
+                data: JSON.stringify(json),
+                contentType: 'application/json',
+                dataType:'json',
                 success: function (response){
-                    $("#show-list").html(response);
+                    $("#show-list").html(response.station);
                     document.getElementById("show-list").style.display = "inline";
                 }
             });

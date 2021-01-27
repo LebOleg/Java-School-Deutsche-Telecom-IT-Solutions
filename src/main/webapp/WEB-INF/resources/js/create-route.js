@@ -9,18 +9,19 @@ $(document).ready(function () {
         $(document).ajaxSend(function(e, xhr, options) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         });
+        let json = {'routeName' : routeName, 'routFromStation':routFromStation, 'routToStation':routToStation, 'travelTime':travelTime}
 
         $.ajax({
             url: myContextPath + "/employee/route/addPath",
-            method: 'POST',
-            data: {routeName: routeName, routFromStation : routFromStation, routToStation:routToStation, travelTime:travelTime
-            },
+            type: 'POST',
+            data: JSON.stringify(json),
+            contentType: 'application/json',
+            dataType: 'json',
             success: function (response) {
-                response = decodeURI(response).replace( /\+/g, ' ' );
                 $('#routeFromStation').val("");
                 $('#routeToStation').val("");
                 $('#travelTime').val("");
-                $('#successTextRoute').text(response);
+                $('#successTextRoute').text(response.message);
             },
         })
     })

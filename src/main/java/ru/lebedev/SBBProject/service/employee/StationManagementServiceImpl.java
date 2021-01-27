@@ -1,5 +1,6 @@
 package ru.lebedev.SBBProject.service.employee;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,52 +22,63 @@ public class StationManagementServiceImpl implements StationManagementService {
 
     @Transactional
     @Override
-    public String createStation(String stationName) {
-        String decodeStation = URLDecoder.decode(stationName, StandardCharsets.UTF_8);
+    public String createStation(String JSONStation) {
+        JSONObject jsonObject = new JSONObject(JSONStation);
+        String station = jsonObject.getString("station").trim();
 
-        if (decodeStation.contains("=")) {
-            decodeStation = decodeStation.substring(decodeStation.indexOf("=") + 1);
+        JSONObject result = new JSONObject();
+
+        if (station.equals("")) {
+            result.put("message", "Поле должно быть непустым");
+
+            return result.toString();
         }
 
-        decodeStation = decodeStation.trim();
-        if (decodeStation.equals("") || decodeStation == null) {
-            return "Поле должно быть непустым";
-        }
+        Optional<Station> stationDB = stationDAO.getStationByName(station);
+        if (!stationDB.isPresent()) {
+            stationDAO.save(new Station(station));
+            result.put("message", "Станция создана");
 
-        Optional<Station> station = stationDAO.getStationByName(decodeStation);
-        if (!station.isPresent()) {
-            stationDAO.save(new Station(decodeStation));
-            return "Станция создана";
+            return result.toString();
         } else {
-            return "Cтанция уже существует";
+            result.put("message", "Cтанция уже существует");
+            return result.toString();
         }
     }
 
     @Transactional
     @Override
     public String createConnection(String stations) {
-        stations = URLDecoder.decode(stations, StandardCharsets.UTF_8);
-        String[] station = stations.split("&");
-        String fromStation = station[0].substring(station[0].indexOf("=") + 1);
-        String toStation = station[1].substring(station[1].indexOf("=") + 1);
+        JSONObject jsonStation = new JSONObject(stations);
+        String fromStation = jsonStation.getString("fromStation");
+        String toStation = jsonStation.getString("toStation");
 
         Optional<Station> fromStationDb = stationDAO.getStationByName(fromStation);
         Optional<Station> toStationDb = stationDAO.getStationByName(toStation);
 
+        JSONObject result = new JSONObject();
+
         if (!fromStationDb.isPresent()) {
-            return "Cтанции " + fromStation + " не сущетсвует";
+            result.put("message", "Cтанции " + fromStation + " не сущетсвует");
+
+            return result.toString();
         }
         if (!toStationDb.isPresent()) {
-            return "Cтанции " + toStation + " не сущетсвует";
+            result.put("message", "Cтанции " + toStation + " не сущетсвует");
+
+            return result.toString();
         }
 
         Optional<Railway> railway = railwayDAO.getRailway(fromStation, toStation);
         if (!railway.isPresent()) {
             railwayDAO.save(new Railway(fromStationDb.get(), toStationDb.get()));
-            return "Связь создана";
-        } else {
-            return "Связь уже существует";
-        }
+            result.put("message", "Связь создана");
 
+            return result.toString();
+        } else {
+            result.put("message", "Связь уже существует");
+
+            return result.toString();
+        }
     }
 }

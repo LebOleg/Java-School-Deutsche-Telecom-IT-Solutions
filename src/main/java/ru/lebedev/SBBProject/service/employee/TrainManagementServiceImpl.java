@@ -1,5 +1,6 @@
 package ru.lebedev.SBBProject.service.employee;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,37 +32,45 @@ public class TrainManagementServiceImpl implements TrainManagementService {
     @Transactional
     @Override
     public String createTrain(String trainInfo) {
-        String[] trains = trainInfo.split("&");
-        String seatsQuantity = trains[0].substring(trains[0].indexOf("=") + 1).trim();
-        String route = trains[1].substring(trains[1].indexOf("=") + 1).trim();
-        String date = trains[2].substring(trains[2].indexOf("=") + 1).trim();
-        String time = trains[3].substring(trains[3].indexOf("=") + 1).replace("%3A", ":").trim();
+        JSONObject jsonTrain = new JSONObject(trainInfo);
+        String seatsQuantity = jsonTrain.getString("seats");
+        String route = jsonTrain.getString("route");
+        String date = jsonTrain.getString("date");
+        String time = jsonTrain.getString("time");
+
+        JSONObject result = new JSONObject();
 
         if (isFieldsEmpty(seatsQuantity, route, date, time)) {
-            return "Поля должны быть непустыми";
+            result.put("message", "Поля должны быть непустыми");
+            return result.toString();
         }
 
         int seats = 0;
         if (isNumber(seatsQuantity)) {
             seats = Integer.parseInt(seatsQuantity);
-        } else return "Количество мест должно быть числом";
+        } else {
+            result.put("message", "Количество мест должно быть числом");
+            return result.toString();
+        }
 
         if (seats == 0) {
-            return "Количество мест должно быть больше 0";
+            result.put("message", "Количество мест должно быть больше 0");
+            return result.toString();
         }
 
         LocalDateTime timetableDateAndTime = CustomConverter.convertStringToTimeAndDate(time, date);
         LocalDateTime today = LocalDateTime.now();
         if(timetableDateAndTime.isBefore(today.plus(1, ChronoUnit.DAYS))) {
-            return "Неверная дата";
+            result.put("message", "Неверная дата");
+            return result.toString();
         }
 
         RouteNumber routeNumberFromDb = routeNumberDAO.getRouteNumber(route).get();
         Train train = new Train(seats, routeNumberFromDb);
         Timetable timetable = new Timetable(train, routeNumberFromDb, timetableDateAndTime);
         timetableDAO.saveInTimetable(timetable);
-
-        return "Поезд создан";
+        result.put("message", "Поезд создан");
+        return result.toString();
     }
 
     private boolean isNumber(String supposedNumber) {

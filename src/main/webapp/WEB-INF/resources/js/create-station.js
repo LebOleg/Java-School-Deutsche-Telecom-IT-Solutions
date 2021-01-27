@@ -6,17 +6,18 @@ $(document).ready(function () {
         $(document).ajaxSend(function(e, xhr, options) {
             xhr.setRequestHeader(csrfHeader, csrfToken);
         });
+        let json = {'station' : station};
 
         $.ajax({
             url: myContextPath + "/employee/station/createStation",
-            method: 'POST',
-            data: {query :station},
+            type: 'post',
+            data: JSON.stringify(json),
+            contentType: 'application/json',
+            dataType: 'json',
             success: function (response) {
-                    response = decodeURI(response).replace( /\+/g, ' ' );
-                    $('#stationName').val("");
-                    $('#successText').text(response);
+                $('#stationName').val("");
+                $('#successText').text(response.message);
             }
-
         })
     })
 })

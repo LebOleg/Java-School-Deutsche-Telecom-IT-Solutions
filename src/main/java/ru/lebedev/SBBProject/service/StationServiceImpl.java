@@ -1,5 +1,6 @@
 package ru.lebedev.SBBProject.service;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.lebedev.SBBProject.dao.StationDAO;
@@ -23,9 +24,14 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public String getAutofilledStation(String partName) {
-        int eqPos = partName.indexOf("=");
-        partName = partName.substring(eqPos + 1);
-        return stationDAO.getAutofilledStation(partName);
+        JSONObject jsonPartOfName = new JSONObject(partName);
+        partName = jsonPartOfName.getString("partName");
+
+        String stationDB = stationDAO.getAutofilledStation(partName);
+        JSONObject result = new JSONObject();
+        result.put("station", stationDB);
+
+        return result.toString();
     }
 
     @Override
