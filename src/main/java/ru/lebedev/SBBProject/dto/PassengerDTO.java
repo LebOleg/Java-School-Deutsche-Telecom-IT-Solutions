@@ -7,6 +7,7 @@ import lombok.Setter;
 import ru.lebedev.SBBProject.model.Passenger;
 import ru.lebedev.SBBProject.utility.CustomConverter;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @Getter
@@ -14,11 +15,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class PassengerDTO {
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String lastName;
+    @NotEmpty
     private String middleName;
+    @NotEmpty
     private String birthday;
     private String email;
+    @NotEmpty
     private String passportNumber;
     private TicketDTO ticketDTO;
 

@@ -3,6 +3,7 @@ package ru.lebedev.SBBProject.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.lebedev.SBBProject.dto.PassengerDTO;
 import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
@@ -12,6 +13,7 @@ import ru.lebedev.SBBProject.service.PassengerService;
 import ru.lebedev.SBBProject.service.TicketService;
 import ru.lebedev.SBBProject.service.TrainService;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -48,7 +50,12 @@ public class TicketController {
     }
 
     @PostMapping("/processPassengerForm")
-    public String processPassengerForm(Principal principal, @ModelAttribute("passenger") PassengerDTO passenger, Model model) {
+    public String processPassengerForm(Principal principal, @ModelAttribute("passenger") @Valid PassengerDTO passenger, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("ticketDTO", passenger.getTicketDTO());
+            return "passenger-form";
+        }
 
         if (!ticketService.isAvailableForPurchase(passenger.getTicketDTO())) {
             model.addAttribute("error", "Билет не куплен. До отправления менее 10 минут");

@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/back.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/error.css"/>
 
 </head>
 
@@ -63,21 +64,25 @@
             <div class="row pb-2">
                 <div class="col-4 form-group">
                     <form:input id="name" class="form-control" placeholder="Имя" type="text" path="name"/>
+                    <form:errors path="name"><strong style="color: red">Поле должно быть непустым</strong></form:errors>
                 </div>
 
                 <div class="col-4 form-group">
                     <form:input id="lastName" class="form-control" placeholder="Фамилия" type="text" path="lastName"/>
+                    <form:errors path="lastName"><strong style="color: red">Поле должно быть непустым</strong></form:errors>
                 </div>
 
                 <div class="col-4 form-group">
                     <form:input id="middleName" class="form-control" placeholder="Отчество" type="text"
                                 path="middleName"/>
+                    <form:errors path="middleName"><strong style="color:red;">Поле должно быть непустым</strong></form:errors>
                 </div>
             </div>
             <div class="row pb-3">
                 <div class="col-4 form-group">
                     <label for="birth"><small style="color: white">Дата рождения</small></label>
                     <form:input id="birth" class="form-control" type="date" path="birthday"/>
+                    <form:errors path="birthday"><strong style="color: red">Поле должно быть непустым</strong></form:errors>
                 </div>
 
                 <div class="col-4 form-group">
@@ -89,6 +94,7 @@
                     <label for="birth"><small>&nbsp;</small></label>
                     <form:input id="pasport" class="form-control" type="text" placeholder="Номер паспорта"
                                 path="passportNumber"/>
+                    <form:errors path="passportNumber"><strong style="color: red">Поле должно быть непустым</strong></form:errors>
                     <form:input path="ticketDTO.train" type="hidden" value="${ticketDTO.train}" name="train"/>
                     <form:input path="ticketDTO.departureTime" type="hidden" value="${ticketDTO.departureTime}"/>
                     <form:input path="ticketDTO.sourceStation" type="hidden" value="${ticketDTO.sourceStation}"/>
@@ -97,6 +103,8 @@
                     <form:input path="ticketDTO.destinationStation" type="hidden"
                                 value="${ticketDTO.destinationStation}"/>
                     <form:input path="ticketDTO.availableSeats" type="hidden" value="${ticketDTO.availableSeats}"/>
+                    <form:input path="ticketDTO.routeNumber" type="hidden" value="${ticketDTO.routeNumber}"/>
+
                 </div>
 
             </div>
