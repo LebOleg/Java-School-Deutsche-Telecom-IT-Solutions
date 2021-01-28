@@ -31,7 +31,7 @@ public class StationController {
 
     @PostMapping("/showTimetable")
     public String showStationTimetable(@ModelAttribute("searchStation") @Valid SearchStationTimetableDTO searchStationTimetableDTO, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "autocomplete-search";
         }
 

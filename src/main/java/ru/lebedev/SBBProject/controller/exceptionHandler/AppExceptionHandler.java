@@ -13,7 +13,7 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public String pageExceptions() {
+    public String appExceptions() {
         return "500";
     }
 }

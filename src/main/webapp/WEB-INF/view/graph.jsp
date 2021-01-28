@@ -42,6 +42,7 @@
             maxEdgeSize: 2,
             minNodeSize: 1,
             maxNodeSize: 8,
+            defaultEdgeType: 'curve'
         }
     });
 

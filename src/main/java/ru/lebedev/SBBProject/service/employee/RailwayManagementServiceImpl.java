@@ -11,7 +11,6 @@ import ru.lebedev.SBBProject.model.Railway;
 import ru.lebedev.SBBProject.model.Station;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class RailwayManagementServiceImpl implements RailwayManagementService {
@@ -28,16 +27,28 @@ public class RailwayManagementServiceImpl implements RailwayManagementService {
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArrayStation = new JSONArray();
-        Random random = new Random(0);
+
+        int angle = 0;
+        double radius = 0.3f;
 
         for (Station s : stations) {
+
+            if (angle == 320) {
+                angle = 0;
+                radius = radius + 0.3f;
+            }
+
+            double x = radius * Math.cos(angle);
+            double y = radius * Math.sin(angle);
+
             JSONObject jsonStations = new JSONObject();
             jsonStations.put("id", s.getName());
             jsonStations.put("label", s.getName());
-            jsonStations.put("x", random.nextFloat());
-            jsonStations.put("y", random.nextFloat());
+            jsonStations.put("x", x);
+            jsonStations.put("y", y);
             jsonStations.put("size", 3);
             jsonArrayStation.put(jsonStations);
+            angle = angle + 40;
         }
 
         jsonObject.put("nodes", jsonArrayStation);

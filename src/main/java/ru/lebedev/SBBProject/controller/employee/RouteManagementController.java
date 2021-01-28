@@ -21,7 +21,7 @@ public class RouteManagementController {
 
     @PostMapping("/showCreateRoute")
     public String showCreateRouteForm(@ModelAttribute("route") @Valid RouteNumber route, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "create-route-number";
         }
 

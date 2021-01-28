@@ -12,6 +12,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/js/check-available-seats.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/error.css"/>
     <sec:csrfMetaTags/>
 </head>
 
@@ -25,12 +26,14 @@
         <div class="row">
             <div class="col form-group">
                 <form:input type="text" class="form-control" placeholder="Cтанция отправления" path="fromStation"/>
+                <form:errors path="fromStation" cssClass="error"/>
             </div>
             <span class="material-icons pt-2" style="color: white">
                 east
             </span>
             <div class="col form-group">
                 <form:input type="text" class="form-control" placeholder="Станция назначения" path="toStation"/>
+                <form:errors path="toStation" cssClass="error"/>
             </div>
         </div>
 
@@ -38,23 +41,26 @@
             <div class="col form-group">
                 <label for="time"><small>&nbsp;</small></label>
                 <form:input id="time" type="time" class="form-control" placeholder="00:00" path="fromTime"/>
+                <form:errors path="fromTime" cssClass="error"/>
             </div>
 
             <div class="col form-group">
                 <label for="timeTo"><small>&nbsp;</small></label>
                 <form:input id="timeTo" type="time" class="form-control" placeholder="00:00" path="toTime"/>
+                <form:errors path="toTime" cssClass="error"/>
             </div>
 
             <div class="col form-group">
                 <label for="date"><small>&nbsp;</small></label>
                 <form:input id="date" type="date" name="date" class="form-control " placeholder="dd.mm.yyyy"
                             path="date"/>
+                <form:errors path="date" cssClass="error"/>
             </div>
             <div class="col pt-4">
-                <input id="button" type="submit" name="submit" value="Поиск" class="btn btn-info rounded-0"
-                       style="width: 100%; height: 71%" ;>
+                <input id="button" type="submit" name="submit" value="Поиск" class="btn btn-info rounded-0" style="width: 73%">
             </div>
         </div>
+
     </div>
 
     </form:form>
@@ -68,7 +74,7 @@
     <div class="col-md-8 offset-md-2">
         <ul class="list-group">
             <c:forEach items="${tickets}" var="ticket" varStatus="status">
-            <form:form action="${pageContext.request.contextPath}/ticket/fillPassenger" method="post"
+            <form:form action="${pageContext.request.contextPath}/ticket/booking" method="post"
                        modelAttribute="ticketDTO" class="MyForm">
             <li class="list-group-item list-group-item-action">
                 <div>

@@ -48,6 +48,14 @@ public class TicketServiceImpl implements TicketService {
             return tickets;
         }
 
+        LocalDateTime now = LocalDateTime.now();
+
+        if (now.isAfter(toTime)) {
+            return tickets;
+        } else if (now.isAfter(fromTime)) {
+            fromTime = now;
+        }
+
 
         List<String> suitableRoutes = routeDAO.getSuitableRoutes(fromStation, toStation);
 
@@ -60,6 +68,7 @@ public class TicketServiceImpl implements TicketService {
 
             LocalDateTime departureTime = fromStationTimetable.get("time", Timestamp.class).toLocalDateTime();
             LocalDateTime arrivalTime = toStationTimetable.get("time", Timestamp.class).toLocalDateTime();
+
             Integer trainId = fromStationTimetable.get("trainNumber", Integer.class);
             String routeNumber = fromStationTimetable.get("routeNumber", String.class);
 
@@ -67,8 +76,6 @@ public class TicketServiceImpl implements TicketService {
 
             TicketDTO ticket = new TicketDTO(fromStation, toStation, trainId.toString(), routeNumber, departureTime, arrivalTime, train.getAvailableSeats());
             tickets.add(ticket);
-
-
         }
 
         return tickets;
@@ -83,7 +90,6 @@ public class TicketServiceImpl implements TicketService {
         passenger.setUser(user);
 
         ticket.setPassenger(passenger);
-        train.setAvailableSeats(train.getAvailableSeats() - 1);
         ticketDAO.save(ticket);
     }
 

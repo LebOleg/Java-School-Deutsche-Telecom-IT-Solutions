@@ -53,14 +53,14 @@ public class TrainManagementServiceImpl implements TrainManagementService {
             return result.toString();
         }
 
-        if (seats == 0) {
+        if (seats <= 0) {
             result.put("message", "Количество мест должно быть больше 0");
             return result.toString();
         }
 
         LocalDateTime timetableDateAndTime = CustomConverter.convertStringToTimeAndDate(time, date);
         LocalDateTime today = LocalDateTime.now();
-        if(timetableDateAndTime.isBefore(today.plus(1, ChronoUnit.DAYS))) {
+        if (timetableDateAndTime.isBefore(today.plus(1, ChronoUnit.DAYS))) {
             result.put("message", "Неверная дата");
             return result.toString();
         }
@@ -97,9 +97,9 @@ public class TrainManagementServiceImpl implements TrainManagementService {
         return trains;
     }
 
-    private boolean isFieldsEmpty(String...strings) {
-        for(String s: strings) {
-            if(s.equals("")) {
+    private boolean isFieldsEmpty(String... strings) {
+        for (String s : strings) {
+            if (s.equals("")) {
                 return true;
             }
         }

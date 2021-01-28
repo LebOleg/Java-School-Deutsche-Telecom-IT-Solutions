@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.lebedev.SBBProject.service.employee.RailwayManagementService;
 import ru.lebedev.SBBProject.service.employee.StationManagementService;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 @Controller
 @RequestMapping("/employee/station")
 public class StationManagementController {

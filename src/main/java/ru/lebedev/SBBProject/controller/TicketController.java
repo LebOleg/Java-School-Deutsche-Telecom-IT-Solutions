@@ -5,12 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.lebedev.SBBProject.dto.PassengerDTO;
 import ru.lebedev.SBBProject.dto.SearchTicketAttributes;
 import ru.lebedev.SBBProject.dto.TicketDTO;
 import ru.lebedev.SBBProject.model.Ticket;
 import ru.lebedev.SBBProject.service.PassengerService;
 import ru.lebedev.SBBProject.service.TicketService;
+import ru.lebedev.SBBProject.service.TimerService;
 import ru.lebedev.SBBProject.service.TrainService;
 
 import javax.validation.Valid;
@@ -20,6 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/ticket")
+@SessionAttributes("ticket")
 public class TicketController {
 
     @Autowired
@@ -28,17 +31,38 @@ public class TicketController {
     private TrainService trainService;
     @Autowired
     private PassengerService passengerService;
+    @Autowired
+    private TimerService timerService;
+
+    @ModelAttribute("ticket")
+    public TicketDTO ticketDTO() {
+        return new TicketDTO();
+    }
 
     @PostMapping("/processSearchTicket")
-    public String processTicketSearch(@ModelAttribute("searchTicketAttr") SearchTicketAttributes searchTicketAttributes, Model model) {
+    public String processTicketSearch(@ModelAttribute("searchTicketAttr") @Valid SearchTicketAttributes searchTicketAttributes,
+                                      BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+
         List<TicketDTO> tickets = ticketService.findTicket(searchTicketAttributes);
         model.addAttribute("tickets", tickets);
         model.addAttribute("ticketDTO", new TicketDTO());
         return "index";
     }
 
-    @PostMapping("/fillPassenger")
-    public String showPassengerForm(@ModelAttribute("ticketDTO") TicketDTO ticket, Model model) {
+    @PostMapping("/booking")
+    public String trainBooking(@ModelAttribute("ticketDTO") TicketDTO ticket, @ModelAttribute("ticket") TicketDTO ticketDTO, RedirectAttributes redirectAttributes) {
+        timerService.seatsBooking(ticket.getTrain());
+        ticketDTO = ticket;
+        redirectAttributes.addFlashAttribute("ticketDTO", ticketDTO);
+        return "redirect:/ticket/fillPassenger";
+    }
+
+    @GetMapping("/fillPassenger")
+    public String showPassengerForm(@ModelAttribute("ticket") TicketDTO ticket, Model model) {
         model.addAttribute("passenger", new PassengerDTO());
         return "passenger-form";
     }
@@ -70,7 +94,13 @@ public class TicketController {
         }
 
         String username = principal.getName();
+
+        if (timerService.isEnd()) {
+            model.addAttribute("error", "Время оформления билета закончилось");
+            return "ticket-error";
+        }
         ticketService.buyTicket(username, passenger);
+        timerService.getTimer().cancel();
         return "ticket-success";
     }
 

@@ -12,6 +12,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/back.js"></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/error.css"/>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/resources/js/timer.js"></script>
 
 </head>
 
@@ -50,8 +52,11 @@
                 <p></p>
             </div>
         </div>
-
+        <div class="card w-50 offset-3">
+            <div class="text-center">Покупка билетов закончится через <span id="time"></span></div>
+        </div>
     </div>
+
 </div>
 
 <div class="container">
